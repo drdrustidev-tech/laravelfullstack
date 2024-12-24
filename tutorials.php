@@ -147,7 +147,7 @@ php artisan make:model DesignationType -mcr
 php artisan make:model Catagory -mcr
 
 php artisan make:model ProfYear --mcr
-php artisan make:model ProfYearSession --mcr
+php artisan make:model ProfYearSession -mcr
 name prof_year_id start_date end_date
 php artisan make:model ProfYearSessionStudent --mcr
 prof_year_session_id student_id
