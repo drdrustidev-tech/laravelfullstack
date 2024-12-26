@@ -69,7 +69,7 @@ php artisan make:model Role --mcr
 php artisan make:model Department --mcr
 php artisan make:model Patron --mcr
 php artisan make:model Frontslider --mcr
-php artisan make:model SiteAssetImage --mcr
+php artisan make:model SiteAssetImage -mcr
 php artisan make:controller TestController --resource
 
 php artisan make:seeder PermissionTableSeeder
