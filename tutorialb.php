@@ -23,3 +23,9 @@ npm run dev -- --host
 php artisan serve --host=0.0.0.0 --port=8000
 
 
+To rollback a single migration, use the code below
+
+php artisan migrate:rollback --path=/database/migrations/2024_12_24_053358_create_prof_year_sessions_table.php
+
+
+
