@@ -130,6 +130,83 @@ protected function registerUserAccessToGates()
     }
 }
 
+Inertia provides shared data through Laravel middleware called HandleInertiaRequests. Here's how to add a new 'can' key to 'auth' and pass all user permissions:
+
+'auth' => [
+    'user' => $request->user(),
+    'can' => $request->user()?->loadMissing('roles.permissions')
+        ->roles->flatMap(function ($role) {
+            return $role->permissions;
+        })->map(function ($permission) {
+            return [$permission['title'] => auth()->user()->can($permission['title'])];
+        })->collapse()->all(),
+],
+
+In your resources/js/Pages/Tasks/Index.vue file:
+
+<div class="mb-4" v-if="$page.props.auth.can.task_create">
+    <Link :href="route('tasks.create')" class="bg-green-500 hover:bg-green-700 text-white border border-transparent font-bold px-4 py-2 text-xs uppercase tracking-widest rounded-md">
+        Create
+    </Link>
+</div>
+<Link v-if="$page.props.auth.can.task_edit" :href="route('tasks.edit', task)" class="bg-green-500 hover:bg-green-700 text-white border border-transparent font-bold px-4 py-2 text-xs uppercase tracking-widest rounded-md">
+    Edit
+</Link>
+<PrimaryButton v-if="$page.props.auth.can.task_destroy" @click="destroy(task.id)">
+    Delete
+</PrimaryButton>
+
+Now, In your app/Http/Controllers/TasksController.php, we'll add authorization checks to each method using the $this->authorize() method.
+
+// app/Http/Controllers/TasksController.php
+public function index()
+{
+    $tasks = Task::all();
+    return Inertia::render('Tasks/Index', [
+        'tasks' => $tasks,
+        'can' => [
+            'createTask' => auth()->user()->can('task_create'),
+            'editTask' => auth()->user()->can('task_edit'),
+            'destroyTask' => auth()->user()->can('task_destroy'),
+        ],
+    ]);
+}
+public function create()
+{
+    $this->authorize('task_create');
+    return Inertia::render('Tasks/Create');
+}
+public function store(StoreTaskRequest $request)
+{
+    $this->authorize('task_create');
+    Task::create($request->validated());
+    return redirect()->route('tasks.index');
+}
+public function edit(Task $task)
+{
+    $this->authorize('task_edit');
+    return Inertia::render('Tasks/Edit', compact('task'));
+}
+public function update(UpdateTaskRequest $request, Task $task)
+{
+    $this->authorize('task_edit');
+    $task->update($request->validated());
+    return redirect()->route('tasks.index');
+}
+public function destroy(Task $task)
+{
+    $this->authorize('task_destroy');
+    $task->delete();
+    return redirect()->route('tasks.index');
+}
+
+
+
+
+
+
+
+
 
 
 
