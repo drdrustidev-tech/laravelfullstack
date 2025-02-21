@@ -86,6 +86,54 @@ public function run()
     ];
     Role::insert($roles);
 }
+// database/seeders/RoleUserTableSeeder.php
+User::findOrFail(1)->roles()->sync(1);
+User::findOrFail(2)->roles()->sync(2);
+
+// database/seeders/PermissionsTableSeeder.php
+public function run()
+{
+    $permissions = [
+        [
+            'id' => 1,
+            'title' => 'task_create',
+        ],
+        [
+            'id' => 2,
+            'title' => 'task_edit',
+        ],
+        [
+            'id' => 3,
+            'title' => 'task_destroy',
+        ],
+    ];
+    Permission::insert($permissions);
+}
+
+// database/seeders/PermissionRoleTableSeeder.php
+Role::findOrFail(1)->permissions()->sync([1, 2, 3]);
+Role::findOrFail(2)->permissions()->sync([1]);
+
+// app/Providers/AuthServiceProvider.php
+protected function registerUserAccessToGates()
+{
+    try {
+        foreach (Permission::pluck('title') as $permission) {
+            Gate::define($permission, function ($user) use ($permission) {
+                return $user->roles()->whereHas('permissions', function ($q) use ($permission) {
+                    $q->where('title', $permission);
+                })->count() > 0;
+            });
+        }
+    } catch (\Exception $e) {
+        info('registerUserAccessToGates: Database not found or not yet migrated. Ignoring user permissions while booting app.');
+    }
+}
+
+
+
+
+
 
 
 
