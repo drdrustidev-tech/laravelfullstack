@@ -1,15 +1,21 @@
+
+composer create-project --prefer-dist laravel/laravel laravelreactts
+composer require laravel/breeze --dev
+php artisan breeze:install
+
+
 php artisan make:model Role -m
 php artisan make:model Permission -m
 
 // app/Models/Role.php
-protected $fillable = ['title'];
+protected $fillable = ['role_name'];
 
 // database/migrations/xxxx_xx_xx_create_roles_table.php
 public function up()
 {
     Schema::create('roles', function (Blueprint $table) {
         $table->id();
-        $table->string('title');
+        $table->string('role_name');
         $table->timestamps();
     });
 }
@@ -49,7 +55,8 @@ public function roles(): BelongsToMany
     return $this->belongsToMany(Role::class);
 }
 
-// database/seeders/UsersTableSeeder.php
+php artisan make:seeder UserSeeder
+// database/seeders/UserSeeder
 public function run()
 {
     $users = [
@@ -71,48 +78,61 @@ public function run()
     User::insert($users);
 }
 
-// database/seeders/RolesTableSeeder.php
+php artisan make:seeder RoleSeeder
+// database/seeders/RoleSeeder.php
 public function run()
 {
     $roles = [
         [
             'id' => 1,
-            'title' => 'Admin',
+            'role_name' => 'Admin',
         ],
         [
             'id' => 2,
-            'title' => 'User',
+            'role_name' => 'User',
         ],
     ];
     Role::insert($roles);
 }
-// database/seeders/RoleUserTableSeeder.php
+
+
+php artisan make:seeder RoleUserSeeder
+
+// database/seeders/RoleUserSeeder.php
 User::findOrFail(1)->roles()->sync(1);
 User::findOrFail(2)->roles()->sync(2);
 
-// database/seeders/PermissionsTableSeeder.php
+
+php artisan make:seeder PermissionSeeder
+// database/seeders/PermissionSeeder.php
 public function run()
 {
     $permissions = [
         [
             'id' => 1,
-            'title' => 'task_create',
+            'permission_name' => 'task_create',
         ],
         [
             'id' => 2,
-            'title' => 'task_edit',
+            'permission_name' => 'task_edit',
         ],
         [
             'id' => 3,
-            'title' => 'task_destroy',
+            'permission_name' => 'task_destroy',
         ],
     ];
     Permission::insert($permissions);
 }
 
+
+php artisan make:seeder PermissionRoleSeeder
 // database/seeders/PermissionRoleTableSeeder.php
 Role::findOrFail(1)->permissions()->sync([1, 2, 3]);
 Role::findOrFail(2)->permissions()->sync([1]);
+
+
+php artisan migrate:fresh --seed
+
 
 // app/Providers/AuthServiceProvider.php
 protected function registerUserAccessToGates()
