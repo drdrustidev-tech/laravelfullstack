@@ -3,6 +3,15 @@ composer create-project --prefer-dist laravel/laravel laravelreact
 composer require laravel/breeze --dev
 php artisan breeze:install
 
+Now you need to install React Bootstrap using the following command.
+npm install react-bootstrap
+After installation, import the Bootstrap CSS in your src/index.js or src/main.jsx file:
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+
+
 
 php artisan make:model Role -m
 php artisan make:model Permission -m
