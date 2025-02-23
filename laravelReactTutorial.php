@@ -22,6 +22,8 @@ php artisan make:seeder RoleSeeder
 php artisan make:seeder PermissionSeeder
 php artisan make:seeder RoleUserSeeder
 php artisan make:seeder PermissionRoleSeeder
+php artisan make:controller PermissionController --model=Permission --resource
+
 
 // app/Models/Role.php
 protected $fillable = ['role_name'];
