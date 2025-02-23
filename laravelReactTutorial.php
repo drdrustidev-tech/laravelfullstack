@@ -1,5 +1,5 @@
 
-composer create-project --prefer-dist laravel/laravel laravelreactts
+composer create-project --prefer-dist laravel/laravel laravelreact
 composer require laravel/breeze --dev
 php artisan breeze:install
 
@@ -129,6 +129,15 @@ php artisan make:seeder PermissionRoleSeeder
 // database/seeders/PermissionRoleTableSeeder.php
 Role::findOrFail(1)->permissions()->sync([1, 2, 3]);
 Role::findOrFail(2)->permissions()->sync([1]);
+
+$this->call([
+            UserSeeder::class,
+            RoleSeeder::class,
+            PermissionSeeder::class,
+            RoleUserSeeder::class,
+            PermissionRoleSeeder::class
+        ]);
+
 
 
 php artisan migrate:fresh --seed
