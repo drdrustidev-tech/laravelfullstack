@@ -6,6 +6,14 @@ php artisan breeze:install
 
 php artisan make:model Role -m
 php artisan make:model Permission -m
+php artisan make:migration create_role_user_table
+php artisan make:migration create_permission_role_table
+
+
+
+
+
+
 
 // app/Models/Role.php
 protected $fillable = ['role_name'];
