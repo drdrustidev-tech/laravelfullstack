@@ -8,12 +8,11 @@ php artisan make:model Role -m
 php artisan make:model Permission -m
 php artisan make:migration create_role_user_table
 php artisan make:migration create_permission_role_table
-
-
-
-
-
-
+php artisan make:seeder UserSeeder
+php artisan make:seeder RoleSeeder
+php artisan make:seeder PermissionSeeder
+php artisan make:seeder RoleUserSeeder
+php artisan make:seeder PermissionRoleSeeder
 
 // app/Models/Role.php
 protected $fillable = ['role_name'];
