@@ -23,6 +23,8 @@ php artisan make:seeder PermissionSeeder
 php artisan make:seeder RoleUserSeeder
 php artisan make:seeder PermissionRoleSeeder
 php artisan make:controller PermissionController --model=Permission --resource
+php artisan make:controller RoleController --model=Role --resource
+
 
 
 // app/Models/Role.php
