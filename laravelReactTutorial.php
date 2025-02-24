@@ -189,6 +189,10 @@ Inertia provides shared data through Laravel middleware called HandleInertiaRequ
         })->collapse()->all(),
 ],
 
+
+Route::resource('permissions', PermissionController::class);
+
+
 In your resources/js/Pages/Tasks/Index.vue file:
 
 <div class="mb-4" v-if="$page.props.auth.can.task_create">
