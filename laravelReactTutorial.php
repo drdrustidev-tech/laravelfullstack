@@ -13,9 +13,6 @@ After installation, import the Bootstrap CSS in your src/index.js or src/main.js
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-
-
-
 php artisan make:model Role -m
 php artisan make:model Permission -m
 php artisan make:migration create_role_user_table
