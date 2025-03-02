@@ -1,3 +1,6 @@
+composer global remove laravel/installer
+composer global update
+composer global require laravel/installer
 
 composer create-project --prefer-dist laravel/laravel laravelreact
 composer require laravel/breeze --dev
