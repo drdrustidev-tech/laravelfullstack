@@ -39,6 +39,7 @@ public function up()
     Schema::create('roles', function (Blueprint $table) {
         $table->id();
         $table->string('role_name');
+        $table->string('permission_name');
         $table->timestamps();
     });
 }
