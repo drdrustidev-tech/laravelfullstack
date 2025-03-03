@@ -62,7 +62,79 @@ public function up(): void
     {
         return $this->belongsTo(Category::class,'parent_id');
     }
+ public function index()
+    {
+        //
+        $catagories = Category::with('children')->whereNull('parent_id')->get();
+        return Inertia::render('Catagories/Index', compact('catagories'));
+    }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+        $catagories = Category::with('children')->whereNull('parent_id')->get();
+        return Inertia::render('Catagories/Create', compact('catagories'));
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+       $validatedData = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'medium_name' => 'required|string|max:255',
+            'short_name' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:categories,id',
+        ]);
+
+        Category::create($validatedData);
+        return redirect()->route('catagories.index')->with('message', 'Catagory Created successfully.');
+
+
+
+
+
+
+
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Category $category)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Category $category)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Category $category)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Category $category)
+    {
+        //
+    }
 
 
 
