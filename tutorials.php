@@ -150,7 +150,7 @@ php artisan make:model ProfYear --mcr
 php artisan make:model ProfYearSession -mcr
 name prof_year_id start_date end_date
 php artisan make:model ProfYearSessionStudent --mcr
-prof_year_session_id student_id
+prof_year_session_id student_id student_roll_no
 
 php artisan make:model AcadClassShedule --mcr
 name class_type_id efffective_date end_date
