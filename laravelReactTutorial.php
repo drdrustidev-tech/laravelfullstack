@@ -75,6 +75,27 @@ public function roles(): BelongsToMany
 {
     return $this->belongsToMany(Role::class);
 }
+// method to check if a role is in user
+public function hasRole(string $role): bool
+{
+    
+    return $this->roles->contains('role_name', $role);
+}
+// permission relation via roles
+public function permissions()
+{   
+   return $this->roles()
+            ->with('permissions')
+            ->get()
+            ->flatMap->permissions
+            ->unique('id');
+}
+// method to check if a permission is in user
+public function hasPermission(string $permission): bool
+{
+    
+    return $this->permissions()->pluck('permission_name')->contains($permission);
+}
 
 php artisan make:seeder UserSeeder
 // database/seeders/UserSeeder
@@ -165,32 +186,46 @@ php artisan migrate:fresh --seed
 
 
 // app/Providers/AuthServiceProvider.php
-protected function registerUserAccessToGates()
-{
-    try {
-        foreach (Permission::pluck('title') as $permission) {
-            Gate::define($permission, function ($user) use ($permission) {
-                return $user->roles()->whereHas('permissions', function ($q) use ($permission) {
-                    $q->where('title', $permission);
-                })->count() > 0;
-            });
+public function boot(): void
+    {
+        //
+
+        // Dynamic override for super admin
+    Gate::before(function (User $user, $ability) {
+        // You could hardcode or check by role
+        
+        if ($user->hasRole('Admin')) {
+            return true; // Full access
         }
-    } catch (\Exception $e) {
-        info('registerUserAccessToGates: Database not found or not yet migrated. Ignoring user permissions while booting app.');
+
+        // Dynamic check via permission
+        if ($user->hasPermission($ability)) {
+            return true;
+        }
+
+        return null; // Let other gates handle if needed
+    });
+
     }
-}
 
 Inertia provides shared data through Laravel middleware called HandleInertiaRequests. Here's how to add a new 'can' key to 'auth' and pass all user permissions:
 
-'auth' => [
-    'user' => $request->user(),
-    'can' => $request->user()?->loadMissing('roles.permissions')
-        ->roles->flatMap(function ($role) {
-            return $role->permissions;
-        })->map(function ($permission) {
-            return [$permission['title'] => auth()->user()->can($permission['title'])];
-        })->collapse()->all(),
-],
+ public function share(Request $request): array
+    {
+        [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
+
+        return [
+            ...parent::share($request),
+            'name' => config('app.name'),
+            'quote' => ['message' => trim($message), 'author' => trim($author)],
+            'auth' => [
+                'user' => $request->user(),
+                'roles' => fn() => $request->user()?->roles->pluck('role_name') ?? [],
+                'permissions' => fn () => $request->user()?->permissions() ?? [],
+            ],
+            'flash' => fn() => $request->session()->get('flash'),
+        ];
+    }
 
 
 Route::resource('permissions', PermissionController::class);
