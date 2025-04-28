@@ -210,7 +210,7 @@ public function boot(): void
 
 Inertia provides shared data through Laravel middleware called HandleInertiaRequests. Here's how to add a new 'can' key to 'auth' and pass all user permissions:
 
- public function share(Request $request): array
+public function share(Request $request): array
     {
         [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
 
@@ -221,11 +221,12 @@ Inertia provides shared data through Laravel middleware called HandleInertiaRequ
             'auth' => [
                 'user' => $request->user(),
                 'roles' => fn() => $request->user()?->roles->pluck('role_name') ?? [],
-                'permissions' => fn () => $request->user()?->permissions() ?? [],
+                'permissions' => fn () => $request->user()?->permissions()->pluck('permission_name') ?? [],
             ],
             'flash' => fn() => $request->session()->get('flash'),
         ];
     }
+}
 
 
 Route::resource('permissions', PermissionController::class);
@@ -295,6 +296,40 @@ dd([
             'email' => $value,
             'exists' => DB::table('student_admissions')->where('email', $value)->exists(),
         ]);
+
+CUSTOM VALIDATION RULE FOR SOMETHING
+class EmailExistsInAnyTable implements ValidationRule
+{
+    protected int $role;
+     /**
+     * Create a new rule instance.
+     */
+    public function __construct(int $role)
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * Run the validation rule.
+     *
+     * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     */
+    public function validate(string $attribute, mixed $value, Closure $fail): void
+    {        
+        $exists = match ($this->role) {
+            5 => DB::table('student_admissions')->where('email', $value)->exists(),
+            //6 => DB::table('teachers')->where('email', $value)->exists(),
+            //7 => DB::table('employees')->where('email', $value)->exists(),
+            default => false,
+        };        
+
+        if (! $exists) {
+            //$fail("The {$attribute} must exist in the {$this->role}s table.");
+            $fail("This Email is not in Database contact Admin.");
+        }
+
+    }
+}
 
 
 
