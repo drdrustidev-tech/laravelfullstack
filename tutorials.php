@@ -126,6 +126,8 @@ php artisan make:model RecImage -mcr
 php artisan make:model RecBody -mcr
 php artisan make:model MedicalOfficer -mcr
 php artisan make:model Teacher -mcr
+teacher_name gender_id teacher_code designation_id subject_id teacher_email teacher_photo
+
 php artisan make:model Student -mcr
 php artisan make:model Nurse -mcr
 php artisan make:model Pharmacist -mcr
@@ -150,16 +152,21 @@ php artisan make:model ProfYear --mcr
 php artisan make:model ProfYearSession -mcr
 name prof_year_id start_date end_date
 php artisan make:model ProfYearSessionStudent --mcr
-prof_year_session_id student_id student_roll_no
+prof_year_session_id student_id student_roll_no group_id
 
-php artisan make:model AcadClassShedule --mcr
-name class_type_id efffective_date end_date
+php artisan make:model AcadClassSchedule --mcr
+class_date start_time end_time prof_year_session_id lecture_type_id group_id subject_id teacher_id class_topic teaching_method tools_used
+php artisan make:model Attendence --mcr
+acad_class_schedule_id prof_year_session_student_id  attendence_status
+
+
+prof_year_session_id lecture_type_id group_id name class_type_id efffective_date end_date
 
 php artisan make:model AcadClassSheduleSession -mcr
 acad_class_schudle_id prof_year_session_id
 
 php artisan make:model AcadClassSheduleStudents -mcr
-acad_class_schudle_id prof_year_session_student_id student_roll_no
+acad_class_schudle_id prof_year_session_student_id student_roll_no group_id
 
 php artisan make:model Attendence -mcr
 class_date start_time end_time acad_class_schudle_id subject_id teacher_id topic
