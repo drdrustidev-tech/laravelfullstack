@@ -288,8 +288,13 @@ public function destroy(Task $task)
     $task->delete();
     return redirect()->route('tasks.index');
 }
-
-
+dd debaug format
+dd([
+            'role' => $this->role,
+            'type' => gettype($this->role),
+            'email' => $value,
+            'exists' => DB::table('student_admissions')->where('email', $value)->exists(),
+        ]);
 
 
 
