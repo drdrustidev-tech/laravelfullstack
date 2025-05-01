@@ -156,8 +156,10 @@ prof_year_session_id student_id student_roll_no group_id
 
 php artisan make:model AcadClassSchedule --mcr
 class_date start_time end_time prof_year_session_id lecture_type_id group_id subject_id teacher_id class_topic teaching_method tools_used
-php artisan make:model Attendence --mcr
+php artisan make:model Attendence -m
 acad_class_schedule_id prof_year_session_student_id  attendence_status
+php artisan make:controller AcadClassScheduleAttendenceController --model=Attendence --resource
+
 
 
 prof_year_session_id lecture_type_id group_id name class_type_id efffective_date end_date
