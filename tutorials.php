@@ -176,6 +176,9 @@ class_date start_time end_time acad_class_schudle_id subject_id teacher_id topic
 php artisan make:model AttendenceDetail --mcr
 attendence_id academic_class_schedule_student_id attendence_status
 
+php artisan make:controller Settings/MyDetailsController
+
+
 
 
 
