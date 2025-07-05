@@ -338,6 +338,202 @@ php artisan config:clear
 php artisan cache:clear
 composer dump-autoload
 
+Creating Multiple Authentication Guards
+Open config/auth.php and define multiple guards
+
+<?php
+'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+
+    'admin' => [
+        'driver' => 'session',
+        'provider' => 'admins',
+    ],
+
+    'seller' => [
+        'driver' => 'session',
+        'provider' => 'sellers',
+    ],
+
+    'customer' => [
+        'driver' => 'session',
+        'provider' => 'customers',
+    ],
+],
+
+Next, define the providers for each guard:
+<?php
+'providers' => [
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\User::class,
+    ],
+
+    'admins' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Admin::class,
+    ],
+
+    'sellers' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Seller::class,
+    ],
+
+    'customers' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Customer::class,
+    ],
+],
+
+
+    Creating Models for Each User Type
+
+    php artisan make:model Admin -m
+php artisan make:model Seller -m
+php artisan make:model Customer -m
+
+    <?php
+public function up()
+{
+    Schema::create('admins', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->string('email')->unique();
+        $table->string('password');
+        $table->rememberToken();
+        $table->timestamps();
+    });
+}
+
+Configuring the Models
+Configure each model to use the HasRoles trait and set the appropriate guard. For example, in app/Models/Admin.php:
+
+<?php
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
+
+class Admin extends Authenticatable
+{
+    use HasRoles;
+
+    protected $guard = 'admin';
+
+    // Other properties and methods
+}
+php artisan make:seeder RolesAndPermissionsSeeder
+<?php
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+class RolesAndPermissionsSeeder extends Seeder
+{
+    public function run()
+    {
+        // Reset cached roles and permissions
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        // Create permissions
+        Permission::create(['name' => 'edit articles']);
+        Permission::create(['name' => 'delete articles']);
+        Permission::create(['name' => 'publish articles']);
+        Permission::create(['name' => 'unpublish articles']);
+
+        // Create roles and assign permissions
+        $role = Role::create(['name' => 'admin']);
+        $role->givePermissionTo(['edit articles', 'delete articles', 'publish articles', 'unpublish articles']);
+
+        $role = Role::create(['name' => 'seller']);
+        $role->givePermissionTo(['edit articles', 'publish articles']);
+
+        $role = Role::create(['name' => 'customer']);
+        $role->givePermissionTo(['edit articles']);
+    }
+}
+
+php artisan db:seed --class=RolesAndPermissionsSeeder
+<?php
+$admin = Admin::create([
+    'name' => 'Admin User',
+    'email' => 'admin@example.com',
+    'password' => bcrypt('password'),
+]);
+
+$admin->assignRole('admin');
+
+$seller = Seller::create([
+    'name' => 'Seller User',
+    'email' => 'seller@example.com',
+    'password' => bcrypt('password'),
+]);
+
+$seller->assignRole('seller');
+
+$customer = Customer::create([
+    'name' => 'Customer User',
+    'email' => 'customer@example.com',
+    'password' => bcrypt('password'),
+]);
+
+$customer->assignRole('customer');
+
+<?php
+Route::middleware(['auth:admin', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+});
+
+Route::middleware(['auth:seller', 'role:seller'])->group(function () {
+    Route::get('/seller/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
+});
+
+Route::middleware(['auth:customer', 'role:customer'])->group(function () {
+    Route::get('/customer/dashboard', [CustomerController::class, 'dashboard'])->name('customer.dashboard');
+});
+
+php artisan make:controller Auth/AdminLoginController
+<?php
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AdminLoginController extends Controller
+{
+    public function showLoginForm()
+    {
+        return view('auth.admin.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::guard('admin')->attempt($credentials)) {
+            return redirect()->intended('/admin/dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+        return redirect('/');
+    }
+}
+
+
+    
 
 
 
