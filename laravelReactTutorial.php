@@ -391,9 +391,10 @@ Next, define the providers for each guard:
 
     Creating Models for Each User Type
 
-    php artisan make:model Admin -m
-php artisan make:model Seller -m
-php artisan make:model Customer -m
+    php artisan make:model Admin -mmcr
+php artisan make:model AdminStaff -mcr
+php artisan make:model Teacher -mcr
+    php artisan make:model Student -mcr
 
     <?php
 public function up()
