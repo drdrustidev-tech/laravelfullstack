@@ -395,6 +395,10 @@ Next, define the providers for each guard:
 php artisan make:model AdminStaff -mcr
 php artisan make:model Teacher -mcr
     php artisan make:model Student -mcr
+php artisan make:model AdminProfile -mcr
+php artisan make:model AdminStaffProfile -mcr
+php artisan make:model TeacherProfile -mcr
+php artisan make:model StudentProfile -mcr
 
     <?php
 public function up()
