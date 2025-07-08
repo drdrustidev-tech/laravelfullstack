@@ -171,6 +171,8 @@ php artisan make:seeder PermissionRoleSeeder
 // database/seeders/PermissionRoleTableSeeder.php
 Role::findOrFail(1)->permissions()->sync([1, 2, 3]);
 Role::findOrFail(2)->permissions()->sync([1]);
+php artisan make:seeder GenderSeeder
+php artisan make:seeder LeaveReasonSeeder
 
 $this->call([
             UserSeeder::class,
@@ -183,6 +185,30 @@ $this->call([
 
 
 php artisan migrate:fresh --seed
+
+php artisan make:seeder GenderSeeder
+ public function run()
+    {
+        $genders = ['Male', 'Female', 'Other'];
+        
+        foreach ($genders as $gender) {
+            Gender::create(['name' => $gender]);
+        }
+    }
+php artisan make:seeder LeaveReasonSeeder
+public function run()
+    {
+        $reasons = [
+            'Completed Course',
+            'Transferred',
+            'Discontinued',
+            'Other'
+        ];
+        
+        foreach ($reasons as $reason) {
+            LeaveReason::create(['name' => $reason]);
+        }
+    }
 
 
 // app/Providers/AuthServiceProvider.php
