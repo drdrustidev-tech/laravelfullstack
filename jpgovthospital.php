@@ -1,4 +1,5 @@
 php artisan make:model Department -mcr
+short_name, medium_name, full_name
 
 php artisan make:model Designation -mcr
 
