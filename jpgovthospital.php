@@ -1,3 +1,17 @@
+composer create-project --prefer-dist laravel/laravel jpgovthospitalxx
+composer require guizoxxv/laravel-breeze-bootstrap
+
+php artisan breeze-bootstrap:install
+npm i -D sass@1.77.6 --save-exact
+npm remove tailwindcss postcss autoprefixer
+npm install bootstrap @popperjs/core
+Edit resources/css/app.css
+@import "bootstrap/dist/css/bootstrap.min.css";
+Edit resources/js/app.js
+Add this line at the bottom:
+import 'bootstrap';
+
+
 php artisan migrate:rollback --step=1 
 
 php artisan make:model Department -mcr
