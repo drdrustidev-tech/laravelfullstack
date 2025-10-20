@@ -32,3 +32,66 @@ patient_register_id, yearly_opd_register_date, opd_no
 
 php artisan make:model CentralOpdRegister -mcr
 patient_register_id, consult_date, old_new, opd_room_no
+
+
+<?php
+
+use App\Http\Controllers\CentralOpdRegisterController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\GenderController;
+use App\Http\Controllers\OldNewController;
+use App\Http\Controllers\OpdController;
+use App\Http\Controllers\PatientRegisterController;
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\UserRoleController;
+use Illuminate\Support\Facades\Auth;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth', 'permission:manage-admin-tasks'])->group(function () {
+    Route::resource('permissions', PermissionController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('userroles', UserRoleController::class);
+
+    Route::resource('departments', DepartmentController::class);
+    Route::resource('designations', DesignationController::class);
+    Route::resource('opds', OpdController::class);
+    Route::resource('genders', GenderController::class);
+    Route::resource('oldNews', OldNewController::class);
+    
+
+});
+
+
+Route::middleware(['auth', 'permission:manage-patient-register'])->group(function () {
+
+     Route::get('patient_registers/showByOpdNo/{opdno}', [PatientRegisterController::class, 'showByOpdNo'])->name('patient_registers.showByOpdNo');
+    Route::resource('patient_registers', PatientRegisterController::class);
+
+    Route::get('central_opd_registers', [CentralOpdRegisterController::class, 'index'])->name('central_opd_registers.index');
+    Route::get('central_opd_registers/create', [CentralOpdRegisterController::class, 'create'])->name('central_opd_registers.create');
+    Route::post('central_opd_registers', [CentralOpdRegisterController::class, 'store'])->name('central_opd_registers.store');
+    Route::get('central_opd_registers/{centralOpdRegister}/edit', [CentralOpdRegisterController::class, 'edit'])->name('central_opd_registers.edit');
+    Route::put('central_opd_registers/{centralOpdRegister}', [CentralOpdRegisterController::class, 'update'])->name('central_opd_registers.update');
+    Route::delete('central_opd_registers/{centralOpdRegister}', [CentralOpdRegisterController::class, 'destroy'])->name('central_opd_registers.destroy');
+});
+
+
+
+
+
+
+
+
+
+
