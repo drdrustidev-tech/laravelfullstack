@@ -12,6 +12,11 @@ Add this line at the bottom:
 import 'bootstrap';
 
 
+composer require maatwebsite/excel:3.1.67
+enable extension gd zip
+php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider" --tag=config
+
+
 php artisan migrate:rollback --step=1 
 
 php artisan make:model Department -mcr
