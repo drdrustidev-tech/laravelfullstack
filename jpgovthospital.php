@@ -46,6 +46,22 @@ php artisan migrate:rollback --path=/database/migrations/2025_10_16_172022_creat
 dd(json_encode($report, JSON_PRETTY_PRINT));
 dd($report->toArray());
 php artisan make:seeder DepartmentTableSeeder
+php artisan make:seeder DesignationTableSeeder
+php artisan make:seeder OldNewTableSeeder
+php artisan make:seeder GenderTableSeeder
+php artisan make:controller UserRoleController
+php artisan make:controller RolePermissionController
+After deleting any controller model
+# Clear cached files
+php artisan cache:clear
+php artisan route:clear
+php artisan config:clear
+php artisan view:clear
+
+# Regenerate autoload files
+composer dump-autoload
+
+php artisan migrate:fresh --seed
 
 
 
