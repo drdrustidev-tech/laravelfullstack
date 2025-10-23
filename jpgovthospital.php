@@ -45,6 +45,8 @@ php artisan migrate:rollback --path=/database/migrations/2025_10_16_172022_creat
 
 dd(json_encode($report, JSON_PRETTY_PRINT));
 dd($report->toArray());
+php artisan make:seeder DepartmentTableSeeder
+
 
 
 
