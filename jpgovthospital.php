@@ -64,6 +64,45 @@ composer dump-autoload
 
 php artisan migrate:fresh --seed
 
+To deployee to host
+composer install --optimize-autoloader --no-dev
+npm run build   # if you're using Vite
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+in root folder make htaccess file
+
+# redirect laravel subfolder
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} !^/jpgovthospital/public/
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^(.*)$ /jpgovthospital/public/$1
+#RewriteRule ^ index.php [L]
+RewriteRule ^(/)?$ jpgovthospital/public/index.php [L]
+
+# Block xmlrpc.php
+<Files xmlrpc.php>
+Require all denied
+</Files>
+
+# Block wp-cron.php
+<Files wp-cron.php>
+Require all denied
+</Files>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php81” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+
 
 
 
