@@ -48,6 +48,7 @@ dd($report->toArray());
 php artisan make:seeder DepartmentTableSeeder
 php artisan make:seeder DesignationTableSeeder
 php artisan make:seeder OldNewTableSeeder
+php artisan make:seeder OpdTableSeeder
 php artisan make:seeder GenderTableSeeder
 php artisan make:controller UserRoleController
 php artisan make:controller RolePermissionController
