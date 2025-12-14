@@ -40,6 +40,8 @@ patient_register_id, consult_date, old_new, opd_room_no
 
 php artisan make:controller CentralOpdRegisterReportController
 
+php artisan make:import CentralOpdRegisterImport
+
 
 php artisan migrate:rollback --path=/database/migrations/2025_10_16_172022_create_opds_table.php
 
