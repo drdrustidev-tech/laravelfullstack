@@ -42,6 +42,10 @@ php artisan make:controller CentralOpdRegisterReportController
 
 php artisan make:import CentralOpdRegisterImport
 
+php artisan down
+php artisan up
+php artisan down --message="We are upgrading the system. Please check back soon."
+
 
 php artisan migrate:rollback --path=/database/migrations/2025_10_16_172022_create_opds_table.php
 
