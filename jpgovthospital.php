@@ -706,6 +706,31 @@ Would you like me to show you a plain JavaScript UI example (HTML + fetch API) f
 No file chosenNo file chosen
 ChatGPT can make mistakes. Check important info. See Cookie Preferences.
 
+   $this->info('Creating Model Designation...');
+        
+        Artisan::call('make:model', [
+            'name' => 'Designation',
+            '--migration'  => true,            
+        ]);
+
+        $this->info('Creating Controller in Api Designation...');
+
+        Artisan::call('make:controller', [
+            'name'   => 'Api/V1/DesignationApiController',
+            '--api'  => true,
+        ]);
+
+        Artisan::call('make:controller', [
+            'name'   => 'Web/DesignationController',
+            '--resource'  => true,
+        ]);
+
+
+        Artisan::call('make:view', [
+            'name'   => 'designations/index',
+            
+        ]);
+
 
 
 
