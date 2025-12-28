@@ -1,1 +1,6 @@
 php artisan make:model Company -mcr
+id name gstin pan address state_id phone email
+financial_year_start financial_year_end created_at updated_at
+php artisan make:model State -mcr
+id name gst_code
+
