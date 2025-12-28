@@ -19,4 +19,6 @@ php artisan make:model VoucherType -mcr
 id, name
 php artisan make:model Voucher -mcr
 id, company_id, voucher_type_id, voucher_no, voucher_date, reference_no, narration, total_amount, created_at, updated_at
+php artisan make:model VoucherEntry -mcr
+id, voucher_id, ledger_id, debit, credit
 
