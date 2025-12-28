@@ -7,3 +7,8 @@ php artisan make:model Customer -mcr
 id, company_id, name, phone, email, gstin, address, state_id, opening_balance, balance_type, created_at, updated_at
 php artisan make:model Supplier -mcr
 id, company_id, name, phone, email, gstin, address, state_id, opening_balance, balance_type, created_at, updated_at
+php artisan make:model Category -mcr
+id, name, parent_id
+php artisan make:model HsnCode -mcr
+id, hsn, description, cgst, sgst, igst
+
