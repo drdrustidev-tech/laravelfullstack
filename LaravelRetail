@@ -3,4 +3,7 @@ id name gstin pan address state_id phone email
 financial_year_start financial_year_end created_at updated_at
 php artisan make:model State -mcr
 id name gst_code
-
+php artisan make:model Customer -mcr
+id, company_id, name, phone, email, gstin, address, state_id, opening_balance, balance_type, created_at, updated_at
+php artisan make:model Supplier -mcr
+id, company_id, name, phone, email, gstin, address, state_id, opening_balance, balance_type, created_at, updated_at
