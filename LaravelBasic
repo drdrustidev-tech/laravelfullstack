@@ -1,0 +1,20 @@
+composer create-project --prefer-dist laravel/laravel jpgovthospitalxx
+composer require laravel/breeze --dev
+php artisan breeze:install blade
+composer require spatie/laravel-permission
+Open bootstrap/app.php
+->withMiddleware(function ($middleware) {
+    $middleware->alias([
+        'role' => RoleMiddleware::class,
+        'permission' => PermissionMiddleware::class,
+        'role_or_permission' => RoleOrPermissionMiddleware::class,
+    ]);
+php artisan make:provider AuthServiceProvider
+
+Gate::before(function ($user, $ability) {
+            return $user->hasRole('Super Admin') ? true : null;
+        });
+
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
