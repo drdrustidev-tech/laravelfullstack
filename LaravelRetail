@@ -11,8 +11,11 @@ php artisan make:model Category -mcr
 id, name, parent_id
 php artisan make:model HsnCode -mcr
 id, hsn, description, cgst, sgst, igst
+php artisan make:model Unit -mcr
+id, full_name, medium_name, short_name
+
 php artisan make:model Product -mcr
-id, company_id, name, item_code, category_id, hsn_code_id, unit, sale_price, purchase_price, opening_stock, reorder_level, created_at, updated_at
+id, company_id, name, item_code, category_id, hsn_code_id, unit_id, sale_price, purchase_price, opening_stock, reorder_level, created_at, updated_at
 php artisan make:model Ledger -mcr
 id, company_id, name, group_name, opening_balance, balance_type, created_at, updated_at
 php artisan make:model VoucherType -mcr
