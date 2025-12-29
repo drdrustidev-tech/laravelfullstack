@@ -3,7 +3,19 @@ composer require laravel/breeze --dev
 php artisan breeze:install blade
 composer require spatie/laravel-permission
 Open bootstrap/app.php
+
 ->withMiddleware(function ($middleware) {
+
+$middleware->group('api', [
+        EnsureFrontendRequestsAreStateful::class,
+        'throttle:api',
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    ]);
+
+
+
+
+
     $middleware->alias([
         'role' => RoleMiddleware::class,
         'permission' => PermissionMiddleware::class,
