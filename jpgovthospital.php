@@ -705,6 +705,25 @@ Would you like me to show you a plain JavaScript UI example (HTML + fetch API) f
 
 No file chosenNo file chosen
 ChatGPT can make mistakes. Check important info. See Cookie Preferences.
+  php artisan make:command RunCustomCommand
+  $this->info('Creating Model Designation...');
+        
+        Artisan::call('make:seeder', [
+            'name' => 'PermissionSeeder',
+                       
+        ]);
+
+        Artisan::call('make:seeder', [
+            'name' => 'RoleSeeder',
+                       
+        ]);
+
+        Artisan::call('make:seeder', [
+            'name' => 'UserSeeder',
+                       
+        ]);
+
+  
 
    $this->info('Creating Model Designation...');
         
@@ -730,6 +749,194 @@ ChatGPT can make mistakes. Check important info. See Cookie Preferences.
             'name'   => 'designations/index',
             
         ]);
+
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
+class RoleSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
+        // Create Roles
+        $superAdmin = Role::firstOrCreate(['name' => 'Super Admin']);
+        $admin      = Role::firstOrCreate(['name' => 'Admin']);
+        $doctor     = Role::firstOrCreate(['name' => 'Doctor']);
+        $reception  = Role::firstOrCreate(['name' => 'Reception']);
+        $accountant = Role::firstOrCreate(['name' => 'Accountant']);
+
+        // Assign Permissions
+
+        // Super Admin → all permissions
+        $superAdmin->syncPermissions(Permission::all());
+
+        // Admin
+        $admin->syncPermissions([
+            'user.view',
+            'patient.view',
+            'patient.create',
+            'patient.update',
+            'opd.view',
+            'opd.create',
+            'report.view',
+        ]);
+
+        // Doctor
+        $doctor->syncPermissions([
+            'patient.view',
+            'patient.update',
+            'opd.view',
+            'opd.create',
+            'report.view',
+        ]);
+
+        // Reception
+        $reception->syncPermissions([
+            'patient.view',
+            'patient.create',
+            'opd.view',
+            'opd.create',
+        ]);
+
+        // Accountant
+        $accountant->syncPermissions([
+            'report.view',
+            'report.export',
+        ]);
+
+    }
+}
+
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
+
+class PermissionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
+         // Clear cached permissions
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+        $permissions = [
+
+            // User Management
+            'user.view',
+            'user.create',
+            'user.update',
+            'user.delete',
+
+            // Patient Management
+            'patient.view',
+            'patient.create',
+            'patient.update',
+            'patient.delete',
+
+            // OPD
+            'opd.view',
+            'opd.create',
+            'opd.update',
+
+            // Reports
+            'report.view',
+            'report.export',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
+    }
+}
+
+
+
+
+
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
+class UserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
+
+         // Super Admin
+        $superAdmin = User::firstOrCreate(
+            ['email' => 'superadmin@example.com'],
+            [
+                'name' => 'Super Admin',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $superAdmin->assignRole('Super Admin');
+
+        // Admin
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $admin->assignRole('Admin');
+
+        // Doctor
+        $doctor = User::firstOrCreate(
+            ['email' => 'doctor@example.com'],
+            [
+                'name' => 'Doctor User',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $doctor->assignRole('Doctor');
+
+        // Reception
+        $reception = User::firstOrCreate(
+            ['email' => 'reception@example.com'],
+            [
+                'name' => 'Reception User',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $reception->assignRole('Reception');
+
+
+
+
+
+
+    }
+}
+
 
 
 
