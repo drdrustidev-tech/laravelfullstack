@@ -11,6 +11,14 @@ SET start_date = '2025-05-01',
 WHERE student_id IN (101, 102, 103, 104);
 
 UPDATE prof_year_session_students
-SET start_date = '2025-12-01',
-    end_date = '2027-04-31'
-WHERE id BETWEEN 249 AND 258;
+SET start_date = '2025-11-01',
+    end_date = '2027-03-30'
+WHERE id BETWEEN 259 AND 333;
+
+UPDATE prof_year_session_students
+SET pract_group_id = 2    
+WHERE id BETWEEN 259 AND 296;
+
+UPDATE prof_year_session_students
+SET pract_group_id = 3    
+WHERE id BETWEEN 297 AND 333;
