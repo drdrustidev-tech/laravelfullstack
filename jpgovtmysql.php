@@ -1,3 +1,5 @@
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --profile-directory="Profile 1" --app=https://tgahmis.sjpgac.in --kiosk-printing
+
 UPDATE prof_year_session_students
 SET start_date = '2025-01-01',
     end_date = '2025-06-30'
