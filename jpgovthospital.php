@@ -39,6 +39,12 @@ php artisan make:model CentralOpdRegister -mcr
 patient_register_id, consult_date, old_new, opd_room_no
 
 php artisan make:controller CentralOpdRegisterReportController
+php artisan make:model IpdRegister -mcr
+ipd_no, opd_no, admission_type_id, admission_date, admission_time, ward_id, bed_no, consultant_id, discharge_date, discharge_time, discharge_reason_id
+
+
+
+
 
 php artisan make:import CentralOpdRegisterImport
 
