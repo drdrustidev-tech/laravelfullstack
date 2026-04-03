@@ -30,3 +30,192 @@ Gate::before(function ($user, $ability) {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+
+// MAKE CUSTOM COMMAND TO CREATE CRUD MODULE
+php artisan make:command MakeCrudModule
+app/Console/Commands/MakeCrudModule.php
+
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+
+class MakeCrudModule extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'app:make-crud-module {name}';
+
+    //protected $signature = 'make:crud {name}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create full CRUD (Model + Migration + Controller + Views)';
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        //
+        $name = $this->argument('name'); // Example: IpdDepartment
+        $plural = Str::plural($name); // IpdDepartments
+        $kebab = Str::kebab($plural); // ipd-departments
+        $camelPlural = Str::camel($plural);   // ipdDepartments
+        $viewPath = resource_path("views/$camelPlural");
+
+        $this->info("Creating CRUD for $name 🚀");
+
+         // 1. Create Model + Migration + Controller
+        Artisan::call("make:model $name -mcr");
+        $this->line(Artisan::output());
+
+        // 2. Create Views Folder
+        if (!File::exists($viewPath)) {
+            File::makeDirectory($viewPath, 0755, true);
+        }
+
+        // 3. Create View Files
+        $this->createView("$viewPath/index.blade.php", $this->indexView($name, $plural, $kebab));
+        $this->createView("$viewPath/create.blade.php", $this->createViewFile($kebab));
+        $this->createView("$viewPath/edit.blade.php", $this->editViewFile($kebab, $name));
+        $this->createView("$viewPath/show.blade.php", $this->showViewFile($name));
+        $this->createView("$viewPath/form.blade.php", $this->formView());
+
+        $this->info("CRUD Module Created Successfully ✅");
+
+
+    }
+
+    private function createView($path, $content)
+    {
+        File::put($path, $content);
+    }
+
+    // ===== Templates =====
+
+    private function indexView($name, $plural, $camelPlural)
+    {
+        return <<<BLADE
+@extends('layouts.app')
+
+@section('content')
+<h2>{$plural}</h2>
+
+<a href="{{ route('$camelPlural.create') }}" class="btn btn-primary mb-2">Add</a>
+
+<table class="table table-bordered">
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Action</th>
+</tr>
+
+@foreach(\${Str::camel($plural)} as \$item)
+<tr>
+    <td>{{ \$item->id }}</td>
+    <td>{{ \$item->name ?? '-' }}</td>
+    <td>
+        <a href="{{ route('$camelPlural.show', \$item->id) }}">View</a>
+        <a href="{{ route('$camelPlural.edit', \$item->id) }}">Edit</a>
+    </td>
+</tr>
+@endforeach
+</table>
+@endsection
+BLADE;
+    }
+
+
+     private function createViewFile($camelPlural)
+    {
+        return <<<BLADE
+@extends('layouts.app')
+
+@section('content')
+<h2>Create</h2>
+
+<form method="POST" action="{{ route('$camelPlural.store') }}">
+    @include('$camelPlural.form')
+</form>
+@endsection
+BLADE;
+    }
+
+    private function editViewFile($camelPlural, $name)
+    {
+        $var = Str::camel($name);
+
+        return <<<BLADE
+@extends('layouts.app')
+
+@section('content')
+<h2>Edit</h2>
+
+<form method="POST" action="{{ route('$camelPlural.update', \${$var}->id) }}">
+    @method('PUT')
+    @include('$camelPlural.form')
+</form>
+@endsection
+BLADE;
+    }
+
+
+     private function showViewFile($name)
+    {
+        $var = Str::camel($name);
+
+        return <<<BLADE
+@extends('layouts.app')
+
+@section('content')
+<h2>Details</h2>
+
+<p>ID: {{ \${$var}->id }}</p>
+
+<a href="{{ route('" . Str::camel(Str::plural($name)) . ".index') }}">Back</a>
+@endsection
+BLADE;
+    }
+
+     private function formView()
+    {
+        return <<<BLADE
+@csrf
+
+<div class="mb-3">
+    <label>Name</label>
+    <input 
+        type="text" 
+        name="name" 
+        class="form-control @error('name') is-invalid @enderror" 
+        value="{{ old('name', \$item->name ?? '') }}"
+    >
+
+    @error('name')
+        <div class="invalid-feedback">
+            {{ \$message }}
+        </div>
+    @enderror
+</div>
+
+<button class="btn btn-success">Submit</button>
+BLADE;
+    }
+
+
+
+
+}
+END OF CCUSTOM COMMAND
+
