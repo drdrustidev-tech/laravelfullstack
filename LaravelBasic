@@ -67,34 +67,33 @@ class MakeCrudModule extends Command
      */
     public function handle()
     {
-        //
-        $name = $this->argument('name'); // Example: IpdDepartment
-        $plural = Str::plural($name); // IpdDepartments
-        $kebab = Str::kebab($plural); // ipd-departments
-        $camelPlural = Str::camel($plural);   // ipdDepartments
+        $name = $this->argument('name');
+
+        $plural = Str::plural($name);
+        $camelPlural = Str::camel($plural);
+
         $viewPath = resource_path("views/$camelPlural");
 
         $this->info("Creating CRUD for $name 🚀");
 
-         // 1. Create Model + Migration + Controller
+        // Model + Migration + Controller
         Artisan::call("make:model $name -mcr");
         $this->line(Artisan::output());
 
-        // 2. Create Views Folder
-        if (!File::exists($viewPath)) {
-            File::makeDirectory($viewPath, 0755, true);
-        }
+        // Views folder
+        File::ensureDirectoryExists($viewPath);
 
-        // 3. Create View Files
-        $this->createView("$viewPath/index.blade.php", $this->indexView($name, $plural, $kebab));
-        $this->createView("$viewPath/create.blade.php", $this->createViewFile($kebab));
-        $this->createView("$viewPath/edit.blade.php", $this->editViewFile($kebab, $name));
+        // Views
+        $this->createView("$viewPath/index.blade.php", $this->indexView($name, $plural, $camelPlural));
+        $this->createView("$viewPath/create.blade.php", $this->createViewFile($camelPlural));
+        $this->createView("$viewPath/edit.blade.php", $this->editViewFile($camelPlural, $name));
         $this->createView("$viewPath/show.blade.php", $this->showViewFile($name));
         $this->createView("$viewPath/form.blade.php", $this->formView());
 
         $this->info("CRUD Module Created Successfully ✅");
 
-
+        $this->line("\n👉 Add this route:");
+        $this->line("Route::resource('$camelPlural', {$name}Controller::class);");
     }
 
     private function createView($path, $content)
@@ -102,14 +101,17 @@ class MakeCrudModule extends Command
         File::put($path, $content);
     }
 
-    // ===== Templates =====
-
+    // ================= INDEX =================
     private function indexView($name, $plural, $camelPlural)
     {
+        $variable = '$' . $camelPlural;              // $dischargeReasons
+        $itemVar = '$' . Str::camel($name);          // $dischargeReason
+
         return <<<BLADE
-@extends('layouts.app')
+@extends('layouts.myapp')
 
 @section('content')
+
 <h2>{$plural}</h2>
 
 <a href="{{ route('$camelPlural.create') }}" class="btn btn-primary mb-2">Add</a>
@@ -121,85 +123,104 @@ class MakeCrudModule extends Command
     <th>Action</th>
 </tr>
 
-@foreach(\${Str::camel($plural)} as \$item)
+@foreach({$variable} as {$itemVar})
 <tr>
-    <td>{{ \$item->id }}</td>
-    <td>{{ \$item->name ?? '-' }}</td>
+    <td>{{ {$itemVar}->id }}</td>
+    <td>{{ {$itemVar}->name ?? '-' }}</td>
     <td>
-        <a href="{{ route('$camelPlural.show', \$item->id) }}">View</a>
-        <a href="{{ route('$camelPlural.edit', \$item->id) }}">Edit</a>
+        <a href="{{ route('$camelPlural.show', {$itemVar}->id) }}">View</a>
+        <a href="{{ route('$camelPlural.edit', {$itemVar}->id) }}">Edit</a>
+
+        <form action="{{ route('$camelPlural.destroy', {$itemVar}->id) }}" method="POST" style="display:inline;">
+            @csrf
+            @method('DELETE')
+            <button onclick="return confirm('Delete?')" class="btn btn-danger btn-sm">Delete</button>
+        </form>
     </td>
 </tr>
 @endforeach
+
 </table>
+
 @endsection
 BLADE;
     }
 
-
-     private function createViewFile($camelPlural)
+    // ================= CREATE =================
+    private function createViewFile($camelPlural)
     {
         return <<<BLADE
-@extends('layouts.app')
+@extends('layouts.myapp')
 
 @section('content')
+
 <h2>Create</h2>
 
 <form method="POST" action="{{ route('$camelPlural.store') }}">
-    @include('$camelPlural.form')
+    @csrf
+    @include('$camelPlural.form', ['data' => null])
 </form>
+
 @endsection
 BLADE;
     }
 
+    // ================= EDIT =================
     private function editViewFile($camelPlural, $name)
     {
         $var = Str::camel($name);
 
         return <<<BLADE
-@extends('layouts.app')
+@extends('layouts.myapp')
 
 @section('content')
+
 <h2>Edit</h2>
 
 <form method="POST" action="{{ route('$camelPlural.update', \${$var}->id) }}">
+    @csrf
     @method('PUT')
-    @include('$camelPlural.form')
+
+    @include('$camelPlural.form', ['data' => \${$var}])
 </form>
+
 @endsection
 BLADE;
     }
 
-
-     private function showViewFile($name)
+    // ================= SHOW =================
+    private function showViewFile($name)
     {
         $var = Str::camel($name);
+        $route = Str::camel(Str::plural($name));
 
         return <<<BLADE
-@extends('layouts.app')
+@extends('layouts.myapp')
 
 @section('content')
+
 <h2>Details</h2>
 
-<p>ID: {{ \${$var}->id }}</p>
+<p><b>ID:</b> {{ \${$var}->id }}</p>
+<p><b>Name:</b> {{ \${$var}->name }}</p>
 
-<a href="{{ route('" . Str::camel(Str::plural($name)) . ".index') }}">Back</a>
+<a href="{{ route('$route.index') }}" class="btn btn-secondary">Back</a>
+
 @endsection
 BLADE;
     }
 
-     private function formView()
+    // ================= FORM =================
+    private function formView()
     {
         return <<<BLADE
-@csrf
-
 <div class="mb-3">
     <label>Name</label>
     <input 
         type="text" 
         name="name" 
         class="form-control @error('name') is-invalid @enderror" 
-        value="{{ old('name', \$item->name ?? '') }}"
+        value="{{ old('name', \$data->name ?? '') }}"
     >
 
     @error('name')
@@ -215,7 +236,8 @@ BLADE;
 
 
 
-
+    
 }
+
 END OF CCUSTOM COMMAND
 
