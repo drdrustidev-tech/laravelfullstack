@@ -34,3 +34,138 @@ public function boot(): void
         Paginator::useBootstrapFive();
     }
 
+php artisan make:seeder PermissionSeeder
+php artisan make:seeder RoleSeeder
+php artisan make:seeder DefaultUserSeeder
+Go to database\seeders and update each seeder file with the following code.
+
+PermissionSeeder.php
+
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Spatie\Permission\Models\Permission;
+
+class PermissionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $permissions = [
+            'create-role',
+            'edit-role',
+            'delete-role',
+            'create-user',
+            'edit-user',
+            'delete-user',
+            'view-product',
+            'create-product',
+            'edit-product',
+            'delete-product'
+         ];
+ 
+          // Looping and Inserting Array's Permissions into Permission Table
+         foreach ($permissions as $permission) {
+            Permission::create(['name' => $permission]);
+          }
+    }
+}
+RoleSeeder.php
+
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+
+class RoleSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        Role::create(['name' => 'Super Admin']);
+        $admin = Role::create(['name' => 'Admin']);
+        $productManager = Role::create(['name' => 'Product Manager']);
+        $user = Role::create(['name' => 'User']);
+
+        $admin->givePermissionTo([
+            'create-user',
+            'edit-user',
+            'delete-user',
+            'create-product',
+            'edit-product',
+            'delete-product'
+        ]);
+
+        $productManager->givePermissionTo([
+            'create-product',
+            'edit-product',
+            'delete-product'
+        ]);
+
+        $user->givePermissionTo([
+            'view-product'
+        ]);
+    }
+}
+DefaultUserSeeder.php
+
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+class DefaultUserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // Creating Super Admin User
+        $superAdmin = User::create([
+            'name' => 'Javed Ur Rehman', 
+            'email' => 'javed@allphptricks.com',
+            'password' => Hash::make('javed1234')
+        ]);
+        $superAdmin->assignRole('Super Admin');
+
+        // Creating Admin User
+        $admin = User::create([
+            'name' => 'Syed Ahsan Kamal', 
+            'email' => 'ahsan@allphptricks.com',
+            'password' => Hash::make('ahsan1234')
+        ]);
+        $admin->assignRole('Admin');
+
+        // Creating Product Manager User
+        $productManager = User::create([
+            'name' => 'Abdul Muqeet', 
+            'email' => 'muqeet@allphptricks.com',
+            'password' => Hash::make('muqeet1234')
+        ]);
+        $productManager->assignRole('Product Manager');
+
+        // Creating Application User
+        $user = User::create([
+            'name' => 'Naghman Ali', 
+            'email' => 'naghman@allphptricks.com',
+            'password' => Hash::make('naghman1234')
+        ]);
+        $user->assignRole('User');
+    }
+}
+
