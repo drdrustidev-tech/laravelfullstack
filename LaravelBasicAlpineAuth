@@ -1,1 +1,36 @@
 
+composer create-project --prefer-dist laravel/laravel jpgovthospitalxx
+composer require laravel/breeze --dev
+php artisan breeze:install blade
+composer require spatie/laravel-permission
+Go to bootstrap/app.php and create alias of middleware in withMiddleware.
+
+->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+        ]);
+    })
+
+Add the HasRoles trait in your user model app\Models\User.php
+
+use Spatie\Permission\Traits\HasRoles;
+class User extends Authenticatable
+{
+    use HasFactory, Notifiable, HasRoles;
+    ...
+
+Define a Super Admin and Bootstrap 5 in  app\Providers\AppServiceProvider.php in boot() method.
+
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Pagination\Paginator;
+public function boot(): void
+    {
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('Super Admin') ? true : null;
+        });
+        
+        Paginator::useBootstrapFive();
+    }
+
