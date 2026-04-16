@@ -37,6 +37,29 @@ public function boot(): void
 php artisan make:seeder PermissionSeeder
 php artisan make:seeder RoleSeeder
 php artisan make:seeder DefaultUserSeeder
+
+public function handle()
+    {
+        //
+        // 3. PermissionSeeder
+        Artisan::call('make:seeder', [
+            'name' => "PermissionSeeder",
+        ]);
+        $this->info(Artisan::output());
+
+        // 3. RoleSeeder
+        Artisan::call('make:seeder', [
+            'name' => "RoleSeeder",
+        ]);
+        $this->info(Artisan::output());
+
+        // 3. DefaultUserSeeder
+        Artisan::call('make:seeder', [
+            'name' => "DefaultUserSeeder",
+        ]);
+        $this->info(Artisan::output());
+
+    }
 Go to database\seeders and update each seeder file with the following code.
 
 PermissionSeeder.php
