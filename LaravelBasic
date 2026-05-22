@@ -445,3 +445,37 @@ PHP);
 
 END OF CCUSTOM COMMAND
 
+
+
+
+ou can separate your app into:
+
+Web routes → Blade + Alpine pages
+API routes → JSON CRUD API
+
+This is the clean Laravel approach.
+
+Folder Structure
+routes/
+ ├── web.php
+ └── api.php
+
+resources/views/products/
+ └── index.blade.php
+
+app/Http/Controllers/
+ ├── Web/
+ │    └── ProductPageController.php
+ └── Api/
+      └── ProductController.php
+1. Web Route (Page)
+routes/web.php
+use App\Http\Controllers\Web\ProductPageController;
+
+Route::get('/products', [ProductPageController::class, 'index']);
+2. API Routes
+routes/api.php
+use App\Http\Controllers\Api\ProductController;
+
+Route::apiResource('products', ProductController::class);
+
