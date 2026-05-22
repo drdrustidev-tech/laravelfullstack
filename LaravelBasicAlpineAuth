@@ -278,3 +278,450 @@ class RunCustomCommand extends Command
     }
 }
 
+
+php artisan make:command MakeCrudModule
+app/Console/Commands/MakeCrudModule.php
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
+
+class MakeCrudModule extends Command
+{
+    protected $signature = 'make:crud {name}';
+
+    protected $description = 'Generate complete CRUD module';
+
+    public function handle()
+    {
+        $name = ucfirst($this->argument('name'));
+
+        $model = Str::singular($name);
+
+        $plural = Str::plural($model);
+
+        $lower = strtolower($plural);
+
+        $this->info("Creating CRUD module for {$model}");
+
+        /*
+        |--------------------------------------------------------------------------
+        | Generate Files
+        |--------------------------------------------------------------------------
+        */
+
+        Artisan::call("make:model {$model} -m");
+
+        Artisan::call("make:controller {$model}Controller");
+
+        Artisan::call("make:controller Api/{$model}Controller");
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create Views Folder
+        |--------------------------------------------------------------------------
+        */
+
+        $viewPath = resource_path("views/{$lower}");
+
+        if (!File::exists($viewPath)) {
+            File::makeDirectory($viewPath, 0755, true);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create Index Blade
+        |--------------------------------------------------------------------------
+        */
+
+        File::put(
+            "{$viewPath}/index.blade.php",
+            $this->indexView($model, $plural, $lower)
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create Web Controller
+        |--------------------------------------------------------------------------
+        */
+
+        File::put(
+            app_path("Http/Controllers/{$model}Controller.php"),
+            $this->webController($model, $plural, $lower)
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create API Controller
+        |--------------------------------------------------------------------------
+        */
+
+        $apiPath = app_path("Http/Controllers/Api");
+
+        if (!File::exists($apiPath)) {
+            File::makeDirectory($apiPath, 0755, true);
+        }
+
+        File::put(
+            "{$apiPath}/{$model}Controller.php",
+            $this->apiController($model, $plural, $lower)
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Route Suggestions
+        |--------------------------------------------------------------------------
+        */
+
+        $this->info("\nAdd these routes manually:\n");
+
+        $this->line("WEB ROUTE:");
+        $this->line("Route::get('/{$lower}', [{$model}Controller::class, 'index'])->name('{$lower}.index');");
+
+        $this->line("\nAPI ROUTE:");
+        $this->line("Route::apiResource('{$lower}', Api\\{$model}Controller::class);");
+
+        $this->info("\nCRUD Module Generated Successfully.");
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Web Controller
+    |--------------------------------------------------------------------------
+    */
+
+    protected function webController($model, $plural, $lower)
+    {
+        return <<<PHP
+<?php
+
+namespace App\Http\Controllers;
+
+class {$model}Controller extends Controller
+{
+    public function index()
+    {
+        return view('{$lower}.index');
+    }
+}
+PHP;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | API Controller
+    |--------------------------------------------------------------------------
+    */
+
+    protected function apiController($model, $plural, $lower)
+    {
+        return <<<PHP
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\\{$model};
+
+class {$model}Controller extends Controller
+{
+    public function index()
+    {
+        return response()->json(
+            {$model}::latest()->get()
+        );
+    }
+
+    public function store(Request \$request)
+    {
+        \$request->validate([
+            'name' => 'required'
+        ]);
+
+        \$item = {$model}::create([
+            'name' => \$request->name
+        ]);
+
+        return response()->json([
+            'message' => '{$model} created successfully',
+            'data' => \$item
+        ]);
+    }
+
+    public function show(\$id)
+    {
+        return response()->json(
+            {$model}::findOrFail(\$id)
+        );
+    }
+
+    public function update(Request \$request, \$id)
+    {
+        \$item = {$model}::findOrFail(\$id);
+
+        \$request->validate([
+            'name' => 'required'
+        ]);
+
+        \$item->update([
+            'name' => \$request->name
+        ]);
+
+        return response()->json([
+            'message' => '{$model} updated successfully',
+            'data' => \$item
+        ]);
+    }
+
+    public function destroy(\$id)
+    {
+        {$model}::findOrFail(\$id)->delete();
+
+        return response()->json([
+            'message' => '{$model} deleted successfully'
+        ]);
+    }
+}
+PHP;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Alpine CRUD View
+    |--------------------------------------------------------------------------
+    */
+
+    protected function indexView($model, $plural, $lower)
+    {
+        return <<<BLADE
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$plural} CRUD</title>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container mt-5" x-data="crudApp()">
+
+    <div class="d-flex justify-content-between mb-3">
+
+        <h2>{$plural} CRUD</h2>
+
+        <button class="btn btn-primary"
+                @click="openCreate()">
+            Add {$model}
+        </button>
+
+    </div>
+
+    <div class="alert alert-success"
+         x-show="successMessage"
+         x-text="successMessage">
+    </div>
+
+    <div class="card mb-4" x-show="showForm">
+
+        <div class="card-body">
+
+            <h4 x-text="editMode ? 'Edit {$model}' : 'Create {$model}'"></h4>
+
+            <form @submit.prevent="saveItem">
+
+                <div class="mb-3">
+
+                    <label>Name</label>
+
+                    <input type="text"
+                           class="form-control"
+                           x-model="form.name">
+
+                    <small class="text-danger"
+                           x-text="errors.name">
+                    </small>
+
+                </div>
+
+                <button class="btn btn-success">
+                    Save
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th width="180">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <template x-for="item in items" :key="item.id">
+
+                <tr>
+
+                    <td x-text="item.id"></td>
+
+                    <td x-text="item.name"></td>
+
+                    <td>
+
+                        <button class="btn btn-warning btn-sm"
+                                @click="editItem(item)">
+                            Edit
+                        </button>
+
+                        <button class="btn btn-danger btn-sm"
+                                @click="deleteItem(item.id)">
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </template>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+function crudApp() {
+
+    return {
+
+        items: [],
+
+        showForm: false,
+
+        editMode: false,
+
+        successMessage: '',
+
+        errors: {},
+
+        form: {
+            id: null,
+            name: ''
+        },
+
+        init() {
+            this.fetchItems();
+        },
+
+        async fetchItems() {
+
+            const response = await fetch('/api/{$lower}');
+
+            this.items = await response.json();
+        },
+
+        openCreate() {
+
+            this.editMode = false;
+
+            this.showForm = true;
+
+            this.form = {
+                id: null,
+                name: ''
+            };
+        },
+
+        editItem(item) {
+
+            this.editMode = true;
+
+            this.showForm = true;
+
+            this.form = item;
+        },
+
+        async saveItem() {
+
+            let url = '/api/{$lower}';
+
+            let method = 'POST';
+
+            if (this.editMode) {
+
+                url += '/' + this.form.id;
+
+                method = 'PUT';
+            }
+
+            const response = await fetch(url, {
+
+                method: method,
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+
+                body: JSON.stringify(this.form)
+            });
+
+            const data = await response.json();
+
+            if (response.status === 422) {
+
+                this.errors = data.errors;
+
+                return;
+            }
+
+            this.successMessage = data.message;
+
+            this.fetchItems();
+
+            this.showForm = false;
+        },
+
+        async deleteItem(id) {
+
+            if (!confirm('Delete item?')) {
+                return;
+            }
+
+            const response = await fetch('/api/{$lower}/' + id, {
+                method: 'DELETE'
+            });
+
+            const data = await response.json();
+
+            this.successMessage = data.message;
+
+            this.fetchItems();
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>
+BLADE;
+    }
+}
