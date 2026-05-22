@@ -236,6 +236,210 @@ BLADE;
 
 
 
+php artisan make:command SetupRolesPermissions
+app/Console/Commands/SetupRolesPermissions.php
+
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
+
+class SetupRolesPermissions extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'setup:roles-permissions';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create role permission seeders and default users';
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        $this->info('Creating seeders...');
+
+        // Create Seeder Files
+        Artisan::call('make:seeder PermissionSeeder');
+        Artisan::call('make:seeder RoleSeeder');
+        Artisan::call('make:seeder DefaultUserSeeder');
+
+        // Seeder Paths
+        $permissionSeederPath = database_path('seeders/PermissionSeeder.php');
+        $roleSeederPath = database_path('seeders/RoleSeeder.php');
+        $defaultUserSeederPath = database_path('seeders/DefaultUserSeeder.php');
+
+        // PermissionSeeder Content
+        File::put($permissionSeederPath, <<<'PHP'
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+
+class PermissionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $permissions = [
+            'create-role',
+            'edit-role',
+            'delete-role',
+            'create-user',
+            'edit-user',
+            'delete-user',
+            'view-product',
+            'create-product',
+            'edit-product',
+            'delete-product'
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::create(['name' => $permission]);
+        }
+    }
+}
+PHP);
+
+        // RoleSeeder Content
+        File::put($roleSeederPath, <<<'PHP'
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+
+class RoleSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        Role::create(['name' => 'Super Admin']);
+
+        $admin = Role::create(['name' => 'Admin']);
+
+        $productManager = Role::create(['name' => 'Product Manager']);
+
+        $user = Role::create(['name' => 'User']);
+
+        $admin->givePermissionTo([
+            'create-user',
+            'edit-user',
+            'delete-user',
+            'create-product',
+            'edit-product',
+            'delete-product'
+        ]);
+
+        $productManager->givePermissionTo([
+            'create-product',
+            'edit-product',
+            'delete-product'
+        ]);
+
+        $user->givePermissionTo([
+            'view-product'
+        ]);
+    }
+}
+PHP);
+
+        // DefaultUserSeeder Content
+        File::put($defaultUserSeederPath, <<<'PHP'
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+class DefaultUserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // Super Admin
+        $superAdmin = User::create([
+            'name' => 'Javed Ur Rehman',
+            'email' => 'javed@allphptricks.com',
+            'password' => Hash::make('javed1234')
+        ]);
+
+        $superAdmin->assignRole('Super Admin');
+
+        // Admin
+        $admin = User::create([
+            'name' => 'Syed Ahsan Kamal',
+            'email' => 'ahsan@allphptricks.com',
+            'password' => Hash::make('ahsan1234')
+        ]);
+
+        $admin->assignRole('Admin');
+
+        // Product Manager
+        $productManager = User::create([
+            'name' => 'Abdul Muqeet',
+            'email' => 'muqeet@allphptricks.com',
+            'password' => Hash::make('muqeet1234')
+        ]);
+
+        $productManager->assignRole('Product Manager');
+
+        // User
+        $user = User::create([
+            'name' => 'Naghman Ali',
+            'email' => 'naghman@allphptricks.com',
+            'password' => Hash::make('naghman1234')
+        ]);
+
+        $user->assignRole('User');
+    }
+}
+PHP);
+
+        $this->info('Seeders created successfully.');
+
+        // Optional Seeder Execution
+        $this->info('Running seeders...');
+
+        Artisan::call('db:seed', [
+            '--class' => 'PermissionSeeder'
+        ]);
+
+        Artisan::call('db:seed', [
+            '--class' => 'RoleSeeder'
+        ]);
+
+        Artisan::call('db:seed', [
+            '--class' => 'DefaultUserSeeder'
+        ]);
+
+        $this->info('All seeders executed successfully.');
+    }
+}
+
+
     
 }
 
