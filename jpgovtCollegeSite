@@ -1,1 +1,35 @@
+php artisan make:model AppointmentType -m
+appointmenttypes: id, name, created_at, updated_at
+php artisan make:model Category -m
+catagories: id, name, created_at, updated_at
+php artisan make:model Department -m
+departments: id, long_name, short_name, description, filename, created_at, updated_at
+php artisan make:model Description -m
+descriptions: id, tittle, catagory_id, body, created_at, updated_at
+php artisan make:model Designation -m
+designations: id, name, created_at, updated_at
+php artisan make:model EmpClass -m
+empclasses: id, empclass_name, created_at, updated_at
+php artisan make:model EmpType -m
+emptypes: id, emptype_name, created_at, updated_at
+php artisan make:model Facility -m
+facilities: id, name, catagory_id, description, filename, created_at, updated_at
+php artisan make:model Faculty -m
+faculties: id, first_name, middle_name, last_name, addressa, addressb, addressc, qualification, designation_id, 
+institute_id, emptype_id, appointmenttype_id, empclass_id, image, created_at, updated_at
+php artisan make:model FrontSlider -m
+frontsliders: id, tittle, image, created_at, updated_at
+php artisan make:model Institute -m
+institutes: id, name, created_at, updated_at
+php artisan make:model NoticeBoard -m
+noticeboards: id, tittle, type_id, filename, created_at, updated_at
+php artisan make:model NoticeType -m
+noticetypes: id, noticetype_name, created_at, updated_at
+php artisan make:model Patron -m
+patrons: id, designation, name, message, image, created_at, updated_at
 
+php artisan make:model TeachingFaculty -m
+teachingfaculties: id, first_name, middle_name, last_name, addressa, addressb, addressc, email, qualification, department_id, designation_id, appointmenttype_id, empclass_id, image, created_at, updated_at
+
+php artisan make:model Vendor -m
+vendors: id, name, addressa, addressb, addressc, email, phone, created_at, updated_at
