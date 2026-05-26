@@ -6,6 +6,7 @@ php artisan make:model Department -m
 departments: id, long_name, short_name, description, filename, created_at, updated_at
 php artisan make:model Description -m
 descriptions: id, tittle, body, created_at, updated_at
+php artisan make:migration create_taggables_table
 php artisan make:model Designation -m
 designations: id, name, created_at, updated_at
 php artisan make:model EmpClass -m
