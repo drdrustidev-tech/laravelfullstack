@@ -1,3 +1,14 @@
+mkdir laravel-app
+mkdir docker
+mkdir docker\php
+mkdir docker\nginx
+New-Item docker\php\Dockerfile -ItemType File
+New-Item docker-compose.yml -ItemType File
+New-Item docker\nginx\default.conf -ItemType File
+docker compose up -d --build
+
+docker compose up -d
+
 
 docker compose exec app php artisan optimize:clear
 docker compose exec app php artisan migrate
