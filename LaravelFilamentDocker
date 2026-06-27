@@ -1,3 +1,4 @@
 
 docker compose exec app php artisan optimize:clear
 docker compose exec app php artisan migrate
+docker compose exec app php artisan serve --host=0.0.0.0
