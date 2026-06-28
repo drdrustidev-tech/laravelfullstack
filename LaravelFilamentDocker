@@ -33,4 +33,23 @@ docker compose exec app php artisan shield:generate
 docker compose exec app php artisan make:filament-resource Permission --generate
 
 
+WORK IN LINUX FILE SYSTEM
+cd ~
+mkdir -p ~/projects
+cd ~/projects
+sudo apt update
+
+sudo apt install -y git curl zip unzip nano
+
+mkdir college-attendance
+
+cd college-attendance
+
+
+
+
+
+
+
+
 
