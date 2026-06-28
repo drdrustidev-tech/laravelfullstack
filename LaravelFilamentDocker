@@ -15,4 +15,5 @@ docker compose exec app php artisan migrate
 docker compose exec app php artisan serve --host=0.0.0.0
 docker compose exec app composer require filament/filament
 docker compose exec app php artisan filament:install --panels
+docker compose exec app php artisan make:filament-user
 
