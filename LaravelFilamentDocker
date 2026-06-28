@@ -27,3 +27,10 @@ docker compose exec app php artisan db:seed
 docker compose exec app php artisan migrate:fresh --seed
 docker compose exec app php artisan migrate:fresh --seed --seeder=PermissionSeeder
 
+docker compose exec app composer require bezhansalleh/filament-shield
+docker compose exec app php artisan shield:install
+docker compose exec app php artisan shield:generate
+docker compose exec app php artisan make:filament-resource Permission --generate
+
+
+
