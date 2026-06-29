@@ -44,6 +44,13 @@ sudo apt install -y git curl zip unzip nano
 mkdir college-attendance
 
 cd college-attendance
+mkdir -p docker/php
+touch docker/php/Dockerfile
+mkdir -p docker/nginx
+touch docker/nginx/default.conf
+touch docker-compose.yml
+
+docker compose run --rm app composer create-project laravel/laravel /var/www
 
 
 
