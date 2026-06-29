@@ -59,9 +59,10 @@ docker compose run --rm app composer create-project laravel/laravel /var/www
 composer create-project --prefer-dist laravel/laravel
 docker compose exec -u root app chown -R 1000:1000 /var/www
 
-rm -rf /var/www/*
-rm -rf /var/www/.[!.]*
-rm -rf /var/www/..?*
+rm -rf src/*
+rm -rf src/.[!.]*
+
+docker compose down -v
 
 
 
