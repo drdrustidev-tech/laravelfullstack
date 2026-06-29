@@ -56,7 +56,22 @@ touch docker-compose.yml
 docker compose exec app bash
 
 docker compose run --rm app composer create-project laravel/laravel /var/www
-composer create-project --prefer-dist laravel/laravel
+docker compose run --rm app composer create-project --prefer-dist laravel/laravel .
+composer create-project laravel/laravel .
+
+docker compose run --rm app composer require filament/filament
+docker compose run --rm app php artisan filament:install --panels
+docker compose run --rm app composer require spatie/laravel-permission
+docker compose run --rm app php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+docker compose run --rm app php artisan migrate
+
+
+
+
+
+
+
+
 docker compose exec -u root app chown -R 1000:1000 /var/www
 
 rm -rf src/*
