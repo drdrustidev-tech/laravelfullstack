@@ -79,6 +79,7 @@ rm -rf src/.[!.]*
 rm -rf src/..?*
 
 docker compose down -v
+docker compose run --rm app php artisan make:filament-resource Permission
 
 
 
