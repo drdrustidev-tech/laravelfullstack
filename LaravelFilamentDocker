@@ -31,6 +31,8 @@ docker compose exec app composer require bezhansalleh/filament-shield
 docker compose exec app php artisan shield:install
 docker compose exec app php artisan shield:generate
 docker compose exec app php artisan make:filament-resource Permission --generate
+docker compose exec app php artisan make:filament-resource Role
+docker compose exec app php artisan make:filament-resource User
 
 
 WORK IN LINUX FILE SYSTEM
@@ -80,6 +82,23 @@ rm -rf src/..?*
 
 docker compose down -v
 docker compose run --rm app php artisan make:filament-resource Permission
+
+
+php artisan make:model Gender -mcr
+php artisan make:model DesignationType -mcr
+php artisan make:model Subject -mcr
+php artisan make:model ProfYear --mcr
+php artisan make:model StudentAdmission --mcr  
+admsession name gender email admdate orderno orderdate leaveorder leaveorderdate leavereason
+php artisan make:model Teacher -mcr
+teacher_name gender_id teacher_code designation_id subject_id teacher_email teacher_photo
+
+php artisan make:model ProfYearSession -mcr
+name prof_year_id start_date end_date
+php artisan make:model ProfYearSessionStudent --mcr
+prof_year_session_id student_id student_roll_no group_id
+
+
 
 
 
