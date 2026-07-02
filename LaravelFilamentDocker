@@ -98,6 +98,11 @@ name prof_year_id start_date end_date
 php artisan make:model ProfYearSessionStudent --mcr
 prof_year_session_id student_id student_roll_no group_id
 
+docker compose run --rm app php artisan make:command MakeFilamentCrudModule
+docker compose run --rm app php artisan app:make-filament-crud-module Gender
+docker compose exec app php artisan make:filament-resource Gender --generate
+
+
 
 
 
