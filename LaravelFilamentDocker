@@ -101,6 +101,18 @@ prof_year_session_id student_id student_roll_no group_id
 docker compose run --rm app php artisan make:command MakeFilamentCrudModule
 docker compose run --rm app php artisan app:make-filament-crud-module Gender
 docker compose exec app php artisan make:filament-resource Gender --generate
+php artisan make:filament-exporter Gender
+docker compose run --rm app php artisan make:filament-exporter Gender
+docker compose run --rm app php artisan make:filament-importer Gender
+docker compose run --rm app php artisan make:model Designation -m
+
+docker compose run --rm app php artisan make:filament-resource Designation --generate
+docker compose run --rm app php artisan make:filament-importer Designation
+docker compose run --rm app php artisan make:filament-exporter Designation
+docker compose run --rm app php artisan migrate
+
+docker compose exec app composer require maatwebsite/excel
+docker compose exec app php artisan make:export DesignationsExport --model=Designation
 
 
 
