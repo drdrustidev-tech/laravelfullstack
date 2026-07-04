@@ -129,6 +129,15 @@ docker compose run --rm app php artisan make:model LectureType -m -s
 docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=LectureTypeSeeder"
 docker compose exec app php artisan make:filament-resource LectureType --generate
 
+docker compose run --rm app php artisan make:model PractGroup -m -s
+docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=PractGroupSeeder"
+docker compose exec app php artisan make:filament-resource PractGroup --generate
+
+docker compose run --rm app php artisan make:model AdminStaff -m
+docker compose run --rm app php artisan migrate
+docker compose exec app php artisan make:filament-resource AdminStaff --generate
+
+
 
 
 
