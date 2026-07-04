@@ -24,3 +24,8 @@ WHERE id BETWEEN 259 AND 296;
 UPDATE prof_year_session_students
 SET pract_group_id = 3    
 WHERE id BETWEEN 297 AND 333;
+
+UPDATE prof_year_session_students
+SET start_date = '2026-07-01',
+    end_date = '2028-01-31'
+WHERE id IN (452, 453, 454, 455, 456, 457, 458, 460, 461, 462);
