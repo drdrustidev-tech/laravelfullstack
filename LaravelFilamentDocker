@@ -121,6 +121,10 @@ docker compose run --rm app php artisan make:model ProfYear -m -s
 docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=ProfYearSeeder"
 docker compose exec app php artisan make:filament-resource ProfYear --generate
 
+docker compose run --rm app php artisan make:model Leavereason -m -s
+docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=LeavereasonSeeder"
+docker compose exec app php artisan make:filament-resource Leavereason --generate
+
 
 
 
