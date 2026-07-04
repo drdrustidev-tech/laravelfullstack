@@ -114,6 +114,9 @@ docker compose run --rm app php artisan migrate
 docker compose exec app composer require maatwebsite/excel
 docker compose exec app php artisan make:export DesignationsExport --model=Designation
 
+docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=SubjectSeeder"
+docker compose exec app php artisan make:filament-resource Subject --generate
+
 
 
 
