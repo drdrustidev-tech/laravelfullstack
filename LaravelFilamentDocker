@@ -117,9 +117,9 @@ docker compose exec app php artisan make:export DesignationsExport --model=Desig
 docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=SubjectSeeder"
 docker compose exec app php artisan make:filament-resource Subject --generate
 
-docker compose run --rm app php artisan make:model Designation -m -s
-docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=SubjectSeeder"
-docker compose exec app php artisan make:filament-resource Subject --generate
+docker compose run --rm app php artisan make:model ProfYear -m -s
+docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=ProfYearSeeder"
+docker compose exec app php artisan make:filament-resource ProfYear --generate
 
 
 
