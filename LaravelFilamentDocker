@@ -17,6 +17,8 @@ docker compose exec app composer require filament/filament
 docker compose exec app php artisan filament:install --panels
 docker compose exec app php artisan make:filament-user
 
+docker compose run --rm app php artisan storage:link
+
 docker compose exec app composer require spatie/laravel-permission
 docker compose exec app php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 docker compose exec app php artisan migrate
