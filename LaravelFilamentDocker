@@ -151,6 +151,8 @@ docker compose run --rm app php artisan make:model ProfYearSession -m
 docker compose run --rm app php artisan migrate
 docker compose exec app php artisan make:filament-resource ProfYearSession --generate
 
+docker compose exec app php artisan make:filament-page ManageSessionEnrolments --resource=ProfYearSessionResource
+
 
 
 
