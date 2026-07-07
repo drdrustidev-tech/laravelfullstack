@@ -153,6 +153,7 @@ docker compose exec app php artisan make:filament-resource ProfYearSession --gen
 docker compose exec app php artisan make:filament-resource ProfYearSessionEnrolment --generate
 
 docker compose exec app php artisan make:filament-page ManageSessionEnrolments --resource=ProfYearSessionResource
+docker compose exec app php artisan make:filament-page BulkEditSessionEnrolments --resource=ProfYearSessionResource
 
 
 
