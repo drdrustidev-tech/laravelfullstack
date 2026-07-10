@@ -178,6 +178,10 @@ Edit	/admin/prof-year-sessions/{parent}/enrolments/{record}/edit
 View	/admin/prof-year-sessions/{parent}/enrolments/{record}
 
 
+docker compose exec app php artisan make:filament-resource TimeTable --nested
+docker compose exec app php artisan make:filament-relation-manager
+
+
 
 
 
