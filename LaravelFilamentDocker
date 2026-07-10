@@ -157,6 +157,28 @@ docker compose exec app php artisan make:filament-page BulkEditSessionEnrolments
 
 
 
+For a ProfYearSessionResource:
+
+/admin/prof-year-sessions
+Action	Route
+List	/admin/prof-year-sessions
+Create	/admin/prof-year-sessions/create
+Edit	/admin/prof-year-sessions/{record}/edit
+View (if enabled)	/admin/prof-year-sessions/{record}
+
+Child Resource Routes
+
+For a ProfYearSessionEnrolmentResource whose parent is ProfYearSessionResource:
+
+/admin/prof-year-sessions/{parent}/enrolments
+Action	Route
+List	/admin/prof-year-sessions/{parent}/enrolments
+Create	/admin/prof-year-sessions/{parent}/enrolments/create
+Edit	/admin/prof-year-sessions/{parent}/enrolments/{record}/edit
+View	/admin/prof-year-sessions/{parent}/enrolments/{record}
+
+
+
 
 
 
