@@ -184,6 +184,18 @@ docker compose exec app php artisan make:filament-relation-manager
 docker compose exec app php artisan make:filament-importer TimeTable
 docker compose exec app php artisan make:import TimeTableImport --model=TimeTable
 
+docker compose exec app php artisan make:filament-page EnrolStudents --resource=ProfYearSessionResource
+public static function getPages(): array
+{
+    return [
+        'index' => Pages\ListProfYearSessions::route('/'),
+        'create' => Pages\CreateProfYearSession::route('/create'),
+        'edit' => Pages\EditProfYearSession::route('/{record}/edit'),
+
+        'enrol-students' => Pages\EnrolStudents::route('/{record}/enrol-students'),
+    ];
+}
+
 
 
 
