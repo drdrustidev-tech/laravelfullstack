@@ -196,6 +196,7 @@ public static function getPages(): array
     ];
 }
 
+docker compose exec app php artisan make:filament-page BulkEditProfYearSessionEnrolments --resource=ProfYearSessionEnrolmentResource
 
 
 
