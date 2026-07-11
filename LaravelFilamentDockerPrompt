@@ -5,3 +5,6 @@ due to being fail students promoted batchwise how to implement attendence system
 
 i have windows 11 with cdrive only. i enabled wsl and docker desktop. i want laravel 13 filament setup 
 docker composer. show me step by step commands and steps to create project in linux filesystem
+
+i have ProfYearSessionResource and a child nested ProfYearSessionEnrolmentResource. i want to make a 
+BulkEditProfYearSessionEnrolment Page implement Schema Repeater to bulksave, show me step by step with code
