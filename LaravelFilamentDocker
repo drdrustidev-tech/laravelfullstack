@@ -140,6 +140,7 @@ docker compose run --rm app php artisan migrate
 docker compose exec app php artisan make:filament-resource AdminStaff --generate
 
 docker compose run --rm app php artisan make:model TemplateFile -m
+docker compose exec app php artisan make:filament-resource TemplateFile --generate
 
 docker compose run --rm app php artisan make:model Student -m
 docker compose run --rm app php artisan migrate
