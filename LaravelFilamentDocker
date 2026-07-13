@@ -218,3 +218,44 @@ docker compose run --rm app touch resources/views/filament/resources/acad-class-
 
 
 
+
+
+
+
+
+
+ Repeater::make('students')
+                            ->label('')
+                            ->addable(false)
+                            ->deletable(false)
+                            ->reorderable(false)
+                            ->columns(4)
+                            ->schema([
+
+                                Hidden::make('enrolment_id'),
+
+                                TextInput::make('roll_no')
+                                    ->label('Roll')
+                                    ->disabled()
+                                    ->dehydrated(),
+
+
+                                TextInput::make('name')
+                                    ->disabled()
+                                    ->dehydrated(),
+
+
+                                Radio::make('status')
+                                    ->options([
+                                        'P' => 'Present',
+                                        'A' => 'Absent',
+                                        'L' => 'Late',
+                                    ])
+                                    ->inline(),
+
+                            ]),
+
+
+
+
+
