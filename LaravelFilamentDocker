@@ -207,6 +207,10 @@ docker compose run --rm app php artisan make:model AcadClassSchedule -m
 docker compose run --rm app php artisan migrate
 docker compose exec app php artisan make:filament-resource AcadClassSchedule --generate
 
+docker compose run --rm app php artisan make:model Attendance -m
+docker compose run --rm app php artisan migrate
+docker compose exec app php artisan make:filament-resource Attendance --generate
+
 
 
 
