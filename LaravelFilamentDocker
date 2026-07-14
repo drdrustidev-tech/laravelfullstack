@@ -220,6 +220,11 @@ docker compose run --rm app mkdir -p resources/views/filament/resources/acad-cla
 docker compose run --rm app touch resources/views/filament/resources/acad-class-schedules/components/attendance-cards.blade.php
 
 docker compose run --rm app php artisan make:migration create_prof_year_subject_table
+docker compose run --rm app php artisan make:migration create_subject_teacher_table
+
+docker compose run --rm app php artisan make:model UserProfile -m
+docker compose run --rm app mkdir -p app/Filament/Pages/Auth
+docker compose run --rm app touch app/Filament/Pages/Auth/Register.php
 
 
 
