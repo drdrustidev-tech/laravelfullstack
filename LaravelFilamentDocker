@@ -9,6 +9,8 @@ docker compose up -d --build
 
 docker compose up -d
 
+cp "/mnt/c/Users/drdru/Downloads/mxkqxgmp_acadjpgovt.sql" ~/projects/laravelc-app/
+
 
 docker compose exec app php artisan optimize:clear
 docker compose exec app php artisan migrate
