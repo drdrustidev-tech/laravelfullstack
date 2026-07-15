@@ -10,6 +10,7 @@ docker compose up -d --build
 docker compose up -d
 
 cp "/mnt/c/Users/drdru/Downloads/mxkqxgmp_acadjpgovt.sql" ~/projects/laravelc-app/
+docker exec -i laravelc_mysql mysql -u root -p laravel < mxkqxgmp_acadjpgovt.sql
 
 
 docker compose exec app php artisan optimize:clear
