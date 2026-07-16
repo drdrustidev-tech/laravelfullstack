@@ -10,8 +10,7 @@ docker compose up -d --build
 docker compose up -d
 
 cp "/mnt/c/Users/drdru/Downloads/mxkqxgmp_acadjpgovt.sql" ~/projects/laravelc-app/
-docker exec -i laravelc_mysql mysql -u root -p laravel < mxkqxgmp_acadjpgovt.sql
-
+docker exec -i laravelc_mysql mysql -uroot -proot laravel < mxkqxgmp_acadjpgovt.sql
 
 docker compose exec app php artisan optimize:clear
 docker compose exec app php artisan migrate
@@ -67,6 +66,8 @@ docker compose exec app bash
 docker compose run --rm app composer create-project laravel/laravel /var/www
 docker compose run --rm app composer create-project --prefer-dist laravel/laravel .
 composer create-project laravel/laravel .
+
+rm -rf laravelc-app
 
 docker compose run --rm app composer require filament/filament
 docker compose run --rm app php artisan filament:install --panels
