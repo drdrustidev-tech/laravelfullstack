@@ -35,3 +35,8 @@ SET start_date = '2026-02-16',
     end_date = '2027-08-16'
 WHERE id BETWEEN 214 AND 276;
 
+UPDATE time_tables
+SET id = id + 1
+WHERE id >= 10
+ORDER BY id DESC;
+
