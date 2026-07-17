@@ -231,6 +231,8 @@ docker compose run --rm app mkdir -p app/Filament/Pages/Auth
 docker compose run --rm app touch app/Filament/Pages/Auth/Register.php
 docker compose run --rm app php artisan make:rule ExistingProfileEmail
 
+php artisan make:filament-widget AcadClassScheduleFilterWidget
+
 
 
 
