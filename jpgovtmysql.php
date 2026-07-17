@@ -33,5 +33,5 @@ WHERE id IN (452, 453, 454, 455, 456, 457, 458, 460, 461, 462);
 UPDATE time_tables
 SET start_date = '2026-02-16',
     end_date = '2027-08-16'
-WHERE id BETWEEN 259 AND 333;
+WHERE id BETWEEN 214 AND 276;
 
