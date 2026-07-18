@@ -105,7 +105,7 @@ php artisan make:model ProfYearSession -mcr
 name prof_year_id start_date end_date
 php artisan make:model ProfYearSessionStudent --mcr
 prof_year_session_id student_id student_roll_no group_id
-
+Gender, DesignationType, Subject, ProfYear, Teacher, Leavereason, LectureType, PractGroup, AdminStaff, TemplateFile
 docker compose run --rm app php artisan make:command MakeFilamentCrudModule
 docker compose run --rm app php artisan app:make-filament-crud-module Gender
 docker compose exec app php artisan make:filament-resource Gender --generate
@@ -232,6 +232,8 @@ docker compose run --rm app touch app/Filament/Pages/Auth/Register.php
 docker compose run --rm app php artisan make:rule ExistingProfileEmail
 
 docker compose run --rm app php artisan make:filament-widget AcadClassScheduleFilterWidget
+
+Gender, DesignationType, Subject, ProfYear, Teacher, Leavereason, LectureType, PractGroup, AdminStaff, TemplateFile
 
 docker compose run --rm app php artisan make:policy StudentPolicy --model=Student
 
