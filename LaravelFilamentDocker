@@ -236,6 +236,16 @@ docker compose run --rm app php artisan make:filament-widget AcadClassScheduleFi
 Gender, DesignationType, Subject, ProfYear, Teacher, Leavereason, LectureType, PractGroup, AdminStaff, TemplateFile
 
 docker compose run --rm app php artisan make:policy StudentPolicy --model=Student
+php artisan make:policy GenderPolicy --model=Gender
+php artisan make:policy DesignationTypePolicy --model=DesignationType
+php artisan make:policy SubjectPolicy --model=Subject
+php artisan make:policy ProfYearPolicy --model=ProfYear
+php artisan make:policy TeacherPolicy --model=Teacher
+php artisan make:policy LeaveReasonPolicy --model=LeaveReason
+php artisan make:policy LectureTypePolicy --model=LectureType
+php artisan make:policy PractGroupPolicy --model=PractGroup
+php artisan make:policy AdminStaffPolicy --model=AdminStaff
+php artisan make:policy TemplateFilePolicy --model=TemplateFile
 
 docker compose run --rm app php artisan tinker
 docker compose run --rm app $user = App\Models\User::find(1);
