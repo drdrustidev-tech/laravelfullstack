@@ -233,7 +233,12 @@ docker compose run --rm app php artisan make:rule ExistingProfileEmail
 
 docker compose run --rm app php artisan make:filament-widget AcadClassScheduleFilterWidget
 
-php artisan make:policy StudentPolicy --model=Student
+docker compose run --rm app php artisan make:policy StudentPolicy --model=Student
+
+docker compose run --rm app php artisan tinker
+docker compose run --rm app $user = App\Models\User::find(1);
+
+docker compose run --rm app $user->getRoleNames();
 
 
 
