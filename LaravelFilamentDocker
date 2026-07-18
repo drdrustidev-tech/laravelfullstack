@@ -233,6 +233,9 @@ docker compose run --rm app php artisan make:rule ExistingProfileEmail
 
 docker compose run --rm app php artisan make:filament-widget AcadClassScheduleFilterWidget
 
+php artisan make:policy StudentPolicy --model=Student
+
+
 
 
 
