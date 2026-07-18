@@ -251,7 +251,7 @@ docker compose run --rm app php artisan make:policy AdminStaffPolicy --model=Adm
 docker compose run --rm app php artisan make:policy TemplateFilePolicy --model=TemplateFile
 docker compose run --rm app php artisan make:policy RolePolicy
 docker compose run --rm app php artisan make:policy UserPolicy --model=User
-docker compose run --rm app php artisan make:policy AcadClassSchedule --model=AcadClassSchedule
+docker compose run --rm app php artisan make:policy AcadClassSchedulePolicy --model=AcadClassSchedule
 
 docker compose run --rm app php artisan optimize:clear
 docker compose run --rm app php artisan permission:cache-reset
