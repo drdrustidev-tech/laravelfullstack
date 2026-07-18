@@ -235,17 +235,26 @@ docker compose run --rm app php artisan make:filament-widget AcadClassScheduleFi
 
 Gender, DesignationType, Subject, ProfYear, Teacher, Leavereason, LectureType, PractGroup, AdminStaff, TemplateFile
 
+docker compose run --rm app php artisan make:policy PermissionPolicy --model=Permission
 docker compose run --rm app php artisan make:policy StudentPolicy --model=Student
 docker compose run --rm app php artisan make:policy GenderPolicy --model=Gender
+docker compose run --rm app php artisan make:policy DesignationPolicy --model=Designation
 docker compose run --rm app php artisan make:policy DesignationTypePolicy --model=DesignationType
 docker compose run --rm app php artisan make:policy SubjectPolicy --model=Subject
 docker compose run --rm app php artisan make:policy ProfYearPolicy --model=ProfYear
+docker compose run --rm app php artisan make:policy ProfYearSessionPolicy --model=ProfYearSession
 docker compose run --rm app php artisan make:policy TeacherPolicy --model=Teacher
-docker compose run --rm app php artisan make:policy LeaveReasonPolicy --model=LeaveReason
+docker compose run --rm app php artisan make:policy LeavereasonPolicy --model=Leavereason
 docker compose run --rm app php artisan make:policy LectureTypePolicy --model=LectureType
 docker compose run --rm app php artisan make:policy PractGroupPolicy --model=PractGroup
 docker compose run --rm app php artisan make:policy AdminStaffPolicy --model=AdminStaff
 docker compose run --rm app php artisan make:policy TemplateFilePolicy --model=TemplateFile
+docker compose run --rm app php artisan make:policy RolePolicy
+docker compose run --rm app php artisan make:policy UserPolicy --model=User
+docker compose run --rm app php artisan make:policy AcadClassSchedule --model=AcadClassSchedule
+
+docker compose run --rm app php artisan optimize:clear
+docker compose run --rm app php artisan permission:cache-reset
 
 docker compose run --rm app php artisan tinker
 docker compose run --rm app $user = App\Models\User::find(1);
