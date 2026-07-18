@@ -32,7 +32,7 @@ docker compose exec app php artisan app:make-auth-seeders-command
 docker compose exec app php artisan db:seed
 docker compose exec app php artisan migrate:fresh --seed
 docker compose exec app php artisan migrate:fresh --seed --seeder=PermissionSeeder
-
+docker compose exec app php artisan db:seed --class=PermissionSeeder
 docker compose exec app composer require bezhansalleh/filament-shield
 docker compose exec app php artisan shield:install
 docker compose exec app php artisan shield:generate
