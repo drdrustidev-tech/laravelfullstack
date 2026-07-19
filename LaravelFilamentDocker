@@ -258,6 +258,10 @@ docker compose run --rm app php artisan make:policy UserPolicy --model=User
 docker compose run --rm app php artisan make:policy AcadClassSchedulePolicy --model=AcadClassSchedule
 docker compose run --rm app php artisan make:policy AttendancePolicy --model=Attendance
 
+docker compose run --rm app composer require saade/filament-fullcalendar
+docker compose run --rm app php artisan make:filament-widget TeacherScheduleCalendar
+
+
 docker compose run --rm app php artisan optimize:clear
 docker compose run --rm app php artisan permission:cache-reset
 
