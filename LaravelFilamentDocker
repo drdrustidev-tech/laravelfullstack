@@ -261,6 +261,11 @@ docker compose run --rm app php artisan make:policy AttendancePolicy --model=Att
 docker compose run --rm app composer require saade/filament-fullcalendar
 docker compose run --rm app composer require saade/filament-fullcalendar:^4.0-beta -W
 docker compose run --rm app php artisan make:filament-widget TeacherScheduleCalendar
+docker compose run --rm app php artisan make:filament-theme
+docker compose exec app mkdir -p resources/css/filament/admin
+docker compose exec app touch resources/css/filament/admin/theme.css
+docker compose exec node npm install
+docker compose exec node npm run dev
 
 
 docker compose run --rm app php artisan optimize:clear
