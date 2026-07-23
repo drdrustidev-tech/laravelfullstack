@@ -224,6 +224,8 @@ docker compose exec app php artisan make:filament-page ManageAttendance
 docker compose exec app php artisan make:filament-page ViewBulkAttendance
 
 docker compose exec app php artisan make:filament-resource StudentAttendance --generate
+docker compose exec app php artisan make:filament-resource StudentAttendance --view
+docker compose exec app php artisan make:filament-page ViewStudentAttendance
 
 
 docker compose run --rm app mkdir -p resources/views/filament/resources/acad-class-schedules/components
