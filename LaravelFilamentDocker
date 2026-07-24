@@ -263,13 +263,13 @@ docker compose run --rm app php artisan make:policy AcadClassSchedulePolicy --mo
 docker compose run --rm app php artisan make:policy AttendancePolicy --model=Attendance
 
 
-php artisan make:filament-page Reports/AttendanceSummary && \
-php artisan make:filament-page Reports/StudentAttendanceReport && \
-php artisan make:filament-page Reports/SubjectAttendanceReport && \
-php artisan make:filament-page Reports/TeacherAttendanceReport && \
-php artisan make:filament-page Reports/MonthlyAttendanceReport && \
-php artisan make:filament-page Reports/DefaulterReport && \
-php artisan make:filament-page Reports/AttendanceRegister
+docker compose run --rm app php artisan make:filament-page Reports/AttendanceSummary && \
+docker compose run --rm app php artisan make:filament-page Reports/StudentAttendanceReport && \
+docker compose run --rm app php artisan make:filament-page Reports/SubjectAttendanceReport && \
+docker compose run --rm app php artisan make:filament-page Reports/TeacherAttendanceReport && \
+docker compose run --rm app php artisan make:filament-page Reports/MonthlyAttendanceReport && \
+docker compose run --rm app php artisan make:filament-page Reports/DefaulterReport && \
+docker compose run --rm app php artisan make:filament-page Reports/AttendanceRegister
 
 docker compose run --rm app composer require saade/filament-fullcalendar
 docker compose run --rm app composer require saade/filament-fullcalendar:^4.0-beta -W
