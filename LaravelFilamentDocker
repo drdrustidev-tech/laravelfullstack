@@ -1,3 +1,4 @@
+makwanajay438@gmail.com
 mkdir laravel-app
 mkdir docker
 mkdir docker\php
@@ -216,6 +217,8 @@ docker compose run --rm app php artisan migrate
 docker compose exec app php artisan make:filament-resource AcadClassSchedule --generate
 docker compose exec app php artisan make:filament-page BulkEditAcadClassDetails --resource=AcadClassSchedule
 docker compose exec app php artisan make:filament-page ViewLessonPlan
+docker compose exec app mkdir -p resources/views/pdf
+docker compose exec app touch resources/views/pdf/lesson-plan.blade.php
 
 
 docker compose run --rm app php artisan make:model Attendance -m
