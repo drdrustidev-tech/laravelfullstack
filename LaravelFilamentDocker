@@ -293,6 +293,136 @@ docker compose run --rm app $user->getRoleNames();
 
 
 
+temporary past
+<x-filament-panels::page>
+    {{-- Page content --}}
+
+     @php
+$date = \Carbon\Carbon::parse($record->class_date);
+
+$academicYear = $date->month >= 7
+    ? $date->year . '-' . ($date->year + 1)
+    : ($date->year - 1) . '-' . $date->year;
+@endphp
+
+
+    
+
+    <div class="card-body">
+
+          
+            
+            <table class="no-border" style="width: 100%; margin-bottom: 20px; border: none !important;">
+        <tbody><tr>
+            <td style="width: 10%; vertical-align: middle;" valign="middle">
+                <img src="images/collegelogo.png" alt="Logo" style="width: 70px; height: auto; margin: auto;">
+            </td>
+            <td style="width: 90%; text-align: center; font-size: 18px;" valign="middle">
+                <h3>Sheth J. P. Government Ayurved College, Bhavnagar</h3>
+                <h3> {{ $this->record->subject->name }},  Date:  {{ $record->class_date }}</h3>
+                
+            </td>
+        </tr>
+    </tbody></table>
+
+
+
+    <h1 style="text-align: center;">Lesson Plan </h1>    
+
+    <table style="width: 100%;">
+        <tbody>
+            <tr>
+                <td colspan="4"><strong>Name of The College:</strong> Sheth J. P. Government Ayurved College, Bhavnagar</td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Name of The Department:</strong>  {{ $this->record->subject->name }}</td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Name of The Teacher:</strong>  {{ $this->record->teacher->teacher_name }}</td>
+            </tr>
+            
+
+            <tr>
+                <td colspan="4">
+                    <table class="no-border" style="width: 100%; margin-bottom: 20px;">
+                        <tbody><tr>
+                            <td width="40%"><strong>Name of Course:</strong> {{ $this->record->subject->medium_name }}</td>
+                            <td width="36%"><strong>Academic Year:</strong> {{ $academicYear }}</td>
+                            <td width="24%"><strong>Batch:</strong> {{ $this->record->practGroup->medium_name }}</td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+
+
+           
+            <tr>
+                <td colspan="4"><strong>Learning Objectives:</strong> {{ $this->record->class_topic }}</td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Instructional Methods:</strong> {{ $this->record->teaching_method }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <strong>Duration LH:</strong>
+                    @if($this->record->lecture_type_id == 1)
+                        {{ \Carbon\Carbon::parse($this->record->start_time)->format('H:i') }}
+                        to
+                        {{ \Carbon\Carbon::parse($this->record->end_time)->format('H:i') }}
+                    @else
+                        Not Applicable
+                    @endif
+                
+                
+                
+                
+                </td>
+                <td colspan="2">
+                    <strong>NLH:</strong>
+                    @if($this->record->lecture_type_id !== 1)
+                        {{ \Carbon\Carbon::parse($this->record->start_time)->format('H:i') }}
+                        to
+                        {{ \Carbon\Carbon::parse($this->record->end_time)->format('H:i') }}
+                    @else
+                        Not Applicable
+                    @endif
+                </td>
+
+            </tr>
+            <tr style="font-weight: bold; ">
+            <td>Time</td>
+            <td>Activity Description</td>
+            <td>Resources / A-V Aids</td>
+            <td>Assessment Method / s</td>
+        </tr>
+            <tr>
+                <td> {{ $this->record->start_time }} to {{ $this->record->end_time }} </td>
+                <td>{{ $this->record->class_topic }}</td>
+                <td>{{ $this->record->tools_used }}</td>
+                <td>{{ $this->record->assessment_method }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+</x-filament-panels::page>
+
+
+
 
 
 
