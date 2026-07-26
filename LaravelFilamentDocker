@@ -10,6 +10,10 @@ docker compose up -d --build
 
 docker compose up -d
 
+cp ~/Downloads/app.zip ~/projects/laraveljpgovtback-app/
+cp "/mnt/c/Users/drdru/Downloads/app.zip" \
+   ~/projects/laraveljpgovtback-app/src
+
 cp "/mnt/c/Users/drdru/Downloads/mxkqxgmp_acadjpgovt.sql" ~/projects/laravelc-app/
 docker exec -i laravelc_mysql mysql -uroot -proot laravel < mxkqxgmp_acadjpgovt.sql
 
