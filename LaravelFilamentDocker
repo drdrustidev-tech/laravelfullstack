@@ -302,7 +302,9 @@ docker compose run --rm app $user->getRoleNames();
 
 
 
-cp /mnt/c/Users/drdru/Desktop/mxkqxgmp_acadjpgovtb.sql ~/projects/laraveljpgovtback-app/
+cp /mnt/c/Users/drdru/Downloads/mxkqxgmp_acadjpgovtb.sql ~/projects/laraveljpgovtback-app/
+docker compose exec -T mysql mysql -u root -pYOUR_PASSWORD laravel < "/mnt/c/Users/drdru/Downloads/your_database.sql"
+docker compose exec -T mysql mysql -u root -proot laravel < "/mnt/c/Users/drdru/Downloads/mxkqxgmp_acadjpgovtb.sql"
     
 
   
