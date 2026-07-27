@@ -302,19 +302,7 @@ docker compose run --rm app $user->getRoleNames();
 
 
 
-temporary past
-<x-filament-panels::page>
-    {{-- Page content --}}
-
-     @php
-$date = \Carbon\Carbon::parse($record->class_date);
-
-$academicYear = $date->month >= 7
-    ? $date->year . '-' . ($date->year + 1)
-    : ($date->year - 1) . '-' . $date->year;
-@endphp
-
-
+cp /mnt/c/Users/drdru/Desktop/mxkqxgmp_acadjpgovtb.sql ~/projects/laraveljpgovtback-app/
     
 
   
