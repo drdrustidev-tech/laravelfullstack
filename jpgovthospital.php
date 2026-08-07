@@ -955,6 +955,7 @@ class UserSeeder extends Seeder
     }
 }
 
+/opt/cpanel/ea-php82/root/usr/bin/php artisan optimize:clear
 
 
 
