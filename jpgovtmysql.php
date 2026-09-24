@@ -40,3 +40,8 @@ SET id = id + 1
 WHERE id >= 10
 ORDER BY id DESC;
 
+UPDATE prof_year_session_students
+SET start_date = '2026-09-07',
+    end_date = '2027-08-16'
+WHERE id BETWEEN 477 AND 485;
+
