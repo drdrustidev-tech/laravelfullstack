@@ -26,3 +26,9 @@ docker run --rm \
 
 touch Dockerfile
 nano ~/projects/jpgovtfilament13/Dockerfile
+nano ~/projects/jpgovtfilament13/docker-compose.yml
+mkdir -p docker/nginx
+nano ~/projects/jpgovtfilament13/docker/nginx/default.conf
+nano ~/projects/jpgovtfilament13/.dockerignore
+docker compose up -d --build
+docker compose down && docker compose build --no-cache && docker compose up -d
