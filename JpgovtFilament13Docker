@@ -1,2 +1,19 @@
 mkdir -p ~/projects/jpgovtfilament13
 cd ~/projects/jpgovtfilament13
+
+jpgovtfilament13/
+│
+├── docker/
+│   └── nginx/
+│       └── default.conf
+│
+├── src/
+│   ├── app/
+│   ├── bootstrap/
+│   ├── database/
+│   ├── public/
+│   └── ...
+│
+├── Dockerfile
+├── docker-compose.yml
+└── .dockerignore
