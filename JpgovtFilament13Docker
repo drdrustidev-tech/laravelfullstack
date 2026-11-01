@@ -17,3 +17,12 @@ jpgovtfilament13/
 ├── Dockerfile
 ├── docker-compose.yml
 └── .dockerignore
+
+docker run --rm \
+  -v "$(pwd)/src:/app" \
+  -w /app \
+  composer:2 \
+  create-project laravel/laravel . "^13.0"
+
+touch Dockerfile
+nano ~/projects/jpgovtfilament13/Dockerfile
