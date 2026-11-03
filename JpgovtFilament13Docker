@@ -230,6 +230,9 @@ ls -ld /var/www/storage/framework/views
 ls -ld /var/www/bootstrap/cache
 '
 
+
+docker compose run --rm app php artisan make:model Gender -m -s --policy
+docker compose run --rm app php artisan make:model Leavereason -m -s --policy
 docker compose run --rm app php artisan make:model Student -m --policy
 docker compose run --rm app php artisan migrate
 docker compose exec app php artisan make:filament-resource Student --generate
