@@ -230,6 +230,8 @@ ls -ld /var/www/storage/framework/views
 ls -ld /var/www/bootstrap/cache
 '
 
+sudo chown -R $USER:$USER src/app/Imports
+
 
 docker compose run --rm app php artisan make:model Gender -m -s --policy
 docker compose run --rm app php artisan make:model Leavereason -m -s --policy
