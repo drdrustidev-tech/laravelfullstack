@@ -245,5 +245,7 @@ docker compose exec app php artisan make:filament-resource Student --generate
 
 docker compose exec app composer require spatie/laravel-permission
 docker compose exec app php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+docker compose exec app php artisan make:command MakeRolePermissionUserSeeder
+docker compose exec app php artisan app:make-role-permission-user-seeder
 
 
