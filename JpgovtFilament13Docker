@@ -275,6 +275,8 @@ docker compose exec app php artisan make:import TeacherImport
 docker compose exec app php artisan make:export TeacherExport
 docker compose exec app php artisan make:filament-page TeacherProfile
 
+docker compose exec app php artisan filament:make-page Auth/Register
+
 
 
 
