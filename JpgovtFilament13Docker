@@ -1,4 +1,5 @@
 http://localhost:8080/admin
+docker compose restart app nginx
 
 mkdir -p ~/projects/jpgovtfilament13
 cd ~/projects/jpgovtfilament13
