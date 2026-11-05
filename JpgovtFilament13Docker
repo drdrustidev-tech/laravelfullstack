@@ -233,6 +233,14 @@ ls -ld /tmp
 ls -ld /var/www/storage/framework/views
 ls -ld /var/www/bootstrap/cache
 '
+docker compose exec app sh -c "
+php artisan make:filament-resource Permission &&
+php artisan make:filament-resource Role &&
+php artisan make:filament-resource User
+"
+
+
+
 
 sudo chown -R $USER:$USER src/app/Imports
 
