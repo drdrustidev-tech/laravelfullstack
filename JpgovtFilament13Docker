@@ -272,6 +272,7 @@ teacher_name gender_id teacher_code designation_id subject_id teacher_email teac
 docker compose exec app php artisan make:filament-resource Teacher --generate
 docker compose exec app php artisan make:import TeacherImport
 docker compose exec app php artisan make:export TeacherExport
+docker compose exec app php artisan make:filament-page TeacherProfile
 
 
 
