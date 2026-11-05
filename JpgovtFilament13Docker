@@ -270,6 +270,8 @@ docker compose run --rm app php artisan make:filament-resource Designation --gen
 docker compose run --rm app php artisan make:model Teacher -m --policy
 teacher_name gender_id teacher_code designation_id subject_id teacher_email teacher_photo
 docker compose exec app php artisan make:filament-resource Teacher --generate
+docker compose exec app php artisan make:import TeacherImport
+docker compose exec app php artisan make:export TeacherExport
 
 
 
