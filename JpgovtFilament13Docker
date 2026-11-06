@@ -309,6 +309,9 @@ docker compose exec app php artisan make:filament-resource AcadClassSchedule --g
 docker compose run --rm app php artisan make:migration create_prof_year_subject_table
 docker compose run --rm app php artisan make:migration create_subject_teacher_table
 
+docker compose run --rm app php artisan make:model ProfYearSessionEnrolment -m
+docker compose exec app php artisan make:filament-resource ProfYearSessionEnrolment --generate
+
 
 
 
