@@ -285,5 +285,8 @@ docker compose exec app php artisan make:filament-page AdminStaffProfile
 docker compose run --rm app php artisan make:model TemplateFile -m
 docker compose exec app php artisan make:filament-resource TemplateFile --generate
 
+docker compose exec app php artisan make:model Subject -m -s
+docker compose exec app php artisan make:model ProfYear -m -s
+
 
 
