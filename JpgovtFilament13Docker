@@ -291,6 +291,17 @@ docker compose exec app php artisan db:seed --class=SubjectSeeder
 docker compose exec app php artisan make:model ProfYear -m -s
 docker compose exec app php artisan make:filament-resource ProfYear --generate
 docker compose exec app php artisan db:seed --class=ProfYearSeeder
+docker compose run --rm app php artisan make:model ProfYearSession -m
+docker compose exec app php artisan make:filament-resource ProfYearSession --generate
+docker compose run --rm app php artisan make:policy ProfYearSessionPolicy --model=ProfYearSession
+docker compose run --rm app php artisan make:model LectureType -m -s
+docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=LectureTypeSeeder"
+docker compose exec app php artisan make:filament-resource LectureType --generate
+
+docker compose run --rm app php artisan make:model PractGroup -m -s
+docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=PractGroupSeeder"
+docker compose exec app php artisan make:filament-resource PractGroup --generate
+
 
 
 
