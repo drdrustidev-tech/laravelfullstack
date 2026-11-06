@@ -287,8 +287,10 @@ docker compose exec app php artisan make:filament-resource TemplateFile --genera
 
 docker compose exec app php artisan make:model Subject -m -s
 docker compose exec app php artisan make:filament-resource Subject --generate
+docker compose exec app php artisan db:seed --class=SubjectSeeder
 docker compose exec app php artisan make:model ProfYear -m -s
 docker compose exec app php artisan make:filament-resource ProfYear --generate
+docker compose exec app php artisan db:seed --class=ProfYearSeeder
 
 
 
