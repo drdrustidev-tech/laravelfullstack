@@ -302,6 +302,9 @@ docker compose run --rm app php artisan make:model PractGroup -m -s
 docker compose exec app sh -c "php artisan migrate && php artisan db:seed --class=PractGroupSeeder"
 docker compose exec app php artisan make:filament-resource PractGroup --generate
 
+docker compose run --rm app php artisan make:model AcadClassSchedule -m
+docker compose exec app php artisan make:filament-resource AcadClassSchedule --generate
+
 
 
 
