@@ -315,6 +315,8 @@ docker compose run --rm app php artisan make:migration create_subject_teacher_ta
 
 docker compose run --rm app php artisan make:model ProfYearSessionEnrolment -m
 docker compose exec app php artisan make:filament-resource ProfYearSessionEnrolment --generate
+docker compose exec app php artisan make:filament-page ViewProfYearSessionEnrolments --resource=ProfYearSessionResource
+docker compose exec app php artisan make:filament-page BulkEditProfYearSessionEnrolments --resource=ProfYearSessionResource
 
 
 
