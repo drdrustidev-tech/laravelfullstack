@@ -341,7 +341,7 @@ docker compose exec app php artisan make:filament-page ViewBulkAttendance --reso
 
 docker compose exec app php artisan make:filament-resource StudentAttendance --generate
 docker compose exec app php artisan make:filament-resource StudentAttendance --view
-docker compose exec app php artisan make:filament-page ViewStudentAttendance
+docker compose exec app php artisan make:filament-page ViewStudentAttendancez
 
 
 
