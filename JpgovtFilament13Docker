@@ -312,6 +312,7 @@ docker compose exec app php artisan make:filament-resource PractGroup --generate
 docker compose run --rm app php artisan make:model AcadClassSchedule -m
 docker compose exec app php artisan make:filament-resource AcadClassSchedule --generate
 docker compose exec app php artisan make:filament-page BulkEditAcadClassSchedules --resource=AcadClassScheduleResource
+docker compose exec app composer require barryvdh/laravel-dompdf
 
 
 docker compose run --rm app php artisan make:migration create_prof_year_subject_table
