@@ -326,6 +326,7 @@ docker compose run --rm app php artisan make:model ProfYearSession -m
 docker compose run --rm app php artisan make:model TimeTable -m
 docker compose exec app php artisan make:filament-relation-manager ProfYearSessionResource timeTables subject_id
 docker compose exec app php artisan make:filament-page EditTimeTable --resource=ProfYearSessionResource
+docker compose exec app php artisan make:export TimeTableExport
 
 
 
