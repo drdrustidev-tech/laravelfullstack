@@ -333,6 +333,16 @@ docker compose exec app php artisan make:filament-page EditTimeTable --resource=
 docker compose exec app php artisan make:export TimeTableExport
 docker compose exec app php artisan make:import TimeTableImport
 
+docker compose run --rm app php artisan make:model Attendance -m
+docker compose run --rm app php artisan migrate
+
+docker compose exec app php artisan make:filament-page ManageBulkAttendance --resource=AcadClassScheduleResource
+docker compose exec app php artisan make:filament-page ViewBulkAttendance --resource=AcadClassScheduleResource
+
+docker compose exec app php artisan make:filament-resource StudentAttendance --generate
+docker compose exec app php artisan make:filament-resource StudentAttendance --view
+docker compose exec app php artisan make:filament-page ViewStudentAttendance
+
 
 
 
