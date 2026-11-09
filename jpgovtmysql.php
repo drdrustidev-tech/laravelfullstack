@@ -45,3 +45,17 @@ SET start_date = '2026-09-07',
     end_date = '2027-08-16'
 WHERE id BETWEEN 477 AND 485;
 
+
+
+1. Create a compressed database backup
+Run this command:
+mysqldump --single-transaction --quick --routines --triggers --events \
+-u mxkqxgmp_acadjpgovt -p mxkqxgmp_acadjpgovt \
+| gzip > ~/acadjpgovt_backup_$(date +%Y%m%d_%H%M%S).sql.gz
+
+2. Verify backup file
+ls -lh ~/acadjpgovt_backup_*.sql.gz
+
+Check backup integrity
+gzip -t ~/acadjpgovt_backup_*.sql.gz
+
