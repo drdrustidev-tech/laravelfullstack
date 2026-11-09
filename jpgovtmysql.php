@@ -59,3 +59,5 @@ ls -lh ~/acadjpgovt_backup_*.sql.gz
 Check backup integrity
 gzip -t ~/acadjpgovt_backup_*.sql.gz
 
+cp /mnt/c/Users/YOUR_WINDOWS_USERNAME/Downloads/acadjpgovt_backup_20261109_220338.sql.gz .
+
