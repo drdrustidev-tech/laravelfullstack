@@ -349,5 +349,8 @@ docker compose exec app php artisan make:filament-resource StudentAttendance --v
 docker compose exec app php artisan make:filament-page ViewStudentAttendancez
 
 
+docker compose exec app php artisan make:filament-table LectureSchedulesTable
+
+
 
 
