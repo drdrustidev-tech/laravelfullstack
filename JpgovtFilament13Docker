@@ -335,7 +335,7 @@ docker compose exec app php artisan make:export TimeTableExport
 docker compose exec app php artisan make:import TimeTableImport
 
 docker compose exec app php artisan make:filament-relation-manager ProfYearSessionResource acadClassSchedules id
-docker compose exec app php artisan make:filament-page EditTimeTable --resource=ProfYearSessionResource
+docker compose exec app php artisan make:filament-page GenerateAcadClassSchedule --resource=ProfYearSessionResource
 
 
 docker compose run --rm app php artisan make:model Attendance -m
