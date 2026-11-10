@@ -6,3 +6,4 @@ RENAME TABLE `hospital`.`doc_templates` TO `hospital`.`template_files`;
 change role names in role table
 RENAME TABLE `hospital`.`prof_year_session_students` TO `hospital`.`prof_year_session_enrolments`;
 ALTER TABLE `attendances` CHANGE `prof_year_session_student_id` `prof_year_session_enrolment_id` BIGINT UNSIGNED NOT NULL;
+ALTER TABLE `attendances` CHANGE `attendence_status` `attendance_status` TINYINT(1) NOT NULL;
