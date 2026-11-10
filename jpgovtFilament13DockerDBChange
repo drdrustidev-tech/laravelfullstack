@@ -1,1 +1,2 @@
-
+change teacher_email to email
+ALTER TABLE `teachers` CHANGE `teacher_email` `email` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
