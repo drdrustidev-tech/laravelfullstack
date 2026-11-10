@@ -2,3 +2,4 @@ change teacher_email to email
 ALTER TABLE `teachers` CHANGE `teacher_email` `email` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 RENAME TABLE `hospital`.`attendences` TO `hospital`.`attendances`;
 ALTER TABLE `prof_year_sessions` ADD `session` VARCHAR(20) NOT NULL DEFAULT '201920' AFTER `prof_year_id`;
+RENAME TABLE `hospital`.`doc_templates` TO `hospital`.`template_files`;
