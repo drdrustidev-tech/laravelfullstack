@@ -254,6 +254,23 @@ php artisan make:filament-resource User
 
 sudo chown -R $USER:$USER src/app/Imports
 
+1. Mark all pending migrations as completed
+docker compose run --rm app php artisan migrate:status
+docker compose exec mysql mysql -uhospital_user -p hospital
+INSERT INTO migrations (migration, batch)
+SELECT files.migration, 2
+FROM (
+    SELECT '2026_11_03_145511_create_genders_table' AS migration
+    UNION ALL SELECT '2026_11_03_145543_create_leavereasons_table'
+    UNION ALL SELECT '2026_11_03_145615_create_students_table'
+    
+) AS files
+WHERE NOT EXISTS (
+    SELECT 1 FROM migrations m
+    WHERE m.migration = files.migration
+);
+
+
 
 
 
