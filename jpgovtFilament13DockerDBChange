@@ -5,3 +5,4 @@ ALTER TABLE `prof_year_sessions` ADD `session` VARCHAR(20) NOT NULL DEFAULT '201
 RENAME TABLE `hospital`.`doc_templates` TO `hospital`.`template_files`;
 change role names in role table
 RENAME TABLE `hospital`.`prof_year_session_students` TO `hospital`.`prof_year_session_enrolments`;
+ALTER TABLE `attendances` CHANGE `prof_year_session_student_id` `prof_year_session_enrolment_id` BIGINT UNSIGNED NOT NULL;
