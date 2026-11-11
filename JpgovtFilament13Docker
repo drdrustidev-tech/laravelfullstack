@@ -372,6 +372,9 @@ docker compose exec app php artisan make:filament-table LectureSchedulesTable
 docker compose run --rm app php artisan make:model AttendanceBlock -m
 docker compose exec app php artisan make:filament-resource AttendanceBlock --generate
 
+docker compose exec app php artisan make:command GenerateModelPermissions
+docker compose exec app php artisan permissions:generate-models
+
 
 
 
