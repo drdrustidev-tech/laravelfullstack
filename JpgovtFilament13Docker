@@ -379,6 +379,13 @@ docker compose exec app php artisan app:generate-model-policies
 docker compose exec app php artisan make:policy RolePolicy --model="Spatie\Permission\Models\Role"
 docker compose exec app php artisan make:policy PermissionPolicy --model="Spatie\Permission\Models\Permission"
 
+return $user->can('viewAny_Role');
+return $user->can('view_Role');
+return $user->can('create_Role');
+return $user->can('update_Role');
+return $user->can('delete_Role');
+
+
 
 
 
