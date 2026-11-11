@@ -374,6 +374,8 @@ docker compose exec app php artisan make:filament-resource AttendanceBlock --gen
 
 docker compose exec app php artisan make:command GenerateModelPermissions
 docker compose exec app php artisan app:generate-model-permissions
+docker compose exec app php artisan make:command GenerateModelPolicies
+docker compose exec app php artisan app:generate-model-policies
 
 
 
