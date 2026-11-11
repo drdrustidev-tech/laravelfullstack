@@ -385,6 +385,9 @@ return $user->can('create_Role');
 return $user->can('update_Role');
 return $user->can('delete_Role');
 
+docker compose exec app php artisan make:filament-page Student/MyAcadClassSchedule
+docker compose exec app php artisan make:filament-page Student/ViewLessonPlan
+
 
 
 
