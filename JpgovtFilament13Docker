@@ -376,6 +376,9 @@ docker compose exec app php artisan make:command GenerateModelPermissions
 docker compose exec app php artisan app:generate-model-permissions
 docker compose exec app php artisan make:command GenerateModelPolicies
 docker compose exec app php artisan app:generate-model-policies
+docker compose exec app php artisan make:policy RolePolicy --model="Spatie\Permission\Models\Role"
+docker compose exec app php artisan make:policy PermissionPolicy --model="Spatie\Permission\Models\Permission"
+
 
 
 
