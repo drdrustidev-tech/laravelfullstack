@@ -6,6 +6,7 @@ cd jpgovtfilament13
 cd jpgovtfilament13 && docker compose up -d && docker compose restart app nginx
 
 mkdir -p src/resources/views/filament/components && touch src/resources/views/filament/components/mobile-brand.blade.php
+touch src/resources/views/filament/components/desktop-brand.blade.php
 
 zip -r jpgovtfilament13-src.zip src/
 zipinfo -1 jpgovtfilament13-src.zip | awk -F/ 'NF>1 {for(i=1;i<=NF-1 && i<=2;i++){p=p (p?"/":"") $i; if(!seen[p]++) print p "/"} p=""}'
