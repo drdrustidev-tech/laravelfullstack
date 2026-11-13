@@ -17,6 +17,15 @@ mkdir -p ~/projects/jpgovtfilament13
 cd ~/projects/jpgovtfilament13
 
 protected string $view = 'filament-panels::pages.page';
+docker compose down
+
+docker compose build --no-cache app
+
+docker compose up -d
+
+
+
+
 
 jpgovtfilament13/
 │
