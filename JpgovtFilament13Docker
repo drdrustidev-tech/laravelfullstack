@@ -402,6 +402,7 @@ return $user->can('delete_Role');
 
 docker compose exec app php artisan make:filament-page Student/MyAcadClassSchedule
 docker compose exec app php artisan make:filament-page Student/ViewLessonPlan
+docker compose exec app php artisan make:filament-page AdminReport/AttendencePercentage
 
 
 
