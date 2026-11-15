@@ -302,8 +302,8 @@ docker compose exec app php artisan db:seed --class=PermissionSeeder
 docker compose exec app php artisan db:seed --class=RoleSeeder
 docker compose exec app php artisan db:seed --class=DefaultUserSeeder
 
-php artisan permission:create-permission view_attendance_summary
-php artisan permission:create-permission download_attendance_summary
+docker compose exec app php artisan permission:create-permission view_attendanceSummary
+docker compose exec app php artisan permission:create-permission download_attendanceSummary
 
 
 docker compose run --rm app php artisan make:model Gender -m -s --policy
