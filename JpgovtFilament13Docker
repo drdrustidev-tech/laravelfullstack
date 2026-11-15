@@ -292,7 +292,10 @@ WHERE NOT EXISTS (
 
 
 
-
+php artisan make:filament-panel admin
+php artisan make:filament-panel teacher
+php artisan make:filament-panel staff
+docker compose exec app php artisan make:filament-panel student
 
 docker compose exec app composer require spatie/laravel-permission
 docker compose exec app php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
@@ -304,6 +307,9 @@ docker compose exec app php artisan db:seed --class=DefaultUserSeeder
 
 docker compose exec app php artisan permission:create-permission AttendanceSummary_view
 docker compose exec app php artisan permission:create-permission AttendanceSummary_download
+docker compose exec app php artisan permission:create-permission Attendance_bulkView
+docker compose exec app php artisan permission:create-permission Attendance_manage
+
 
 
 docker compose run --rm app php artisan make:model Gender -m -s --policy
