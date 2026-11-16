@@ -291,11 +291,15 @@ WHERE NOT EXISTS (
 );
 
 
-
+docker compose exec app php artisan make:filament-panel auth
 php artisan make:filament-panel admin
 php artisan make:filament-panel teacher
 php artisan make:filament-panel staff
 docker compose exec app php artisan make:filament-panel student
+mkdir -p app/Filament/Pages/Auth
+touch app/Filament/Pages/Auth/CommonLogin.php
+
+
 
 docker compose exec app composer require spatie/laravel-permission
 docker compose exec app php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
