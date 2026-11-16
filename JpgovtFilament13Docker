@@ -312,11 +312,28 @@ mkdir -p app/Http/Responses
 touch app/Http/Responses/RoleBasedLoginResponse.php
 '
 
+docker compose exec app sh -lc '
+touch app/Http/Responses/RoleBasedRegistrationResponse.php
+'
 
-mkdir -p app/Http/Responses
+docker compose exec app sh -lc '
+touch app/Http/Responses/CommonLogoutResponse.php
+'
 
 
 
+
+docker compose exec app php artisan tinker
+
+$user = App\Models\User::find(ankitrathod032008@gmail.com);
+
+$user->getRoleNames();
+
+$user->hasRole('Student');
+
+$user->canAccessPanel(
+    Filament\Facades\Filament::getPanel('student')
+);
 
 
 
