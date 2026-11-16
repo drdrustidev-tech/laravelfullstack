@@ -298,6 +298,10 @@ php artisan make:filament-panel staff
 docker compose exec app php artisan make:filament-panel student
 mkdir -p app/Filament/Pages/Auth
 touch app/Filament/Pages/Auth/CommonLogin.php
+docker compose exec app sh -lc '
+mkdir -p app/Filament/Pages/Auth
+touch app/Filament/Pages/Auth/CommonLogin.php
+'
 
 
 
