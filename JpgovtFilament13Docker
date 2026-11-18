@@ -263,6 +263,19 @@ ls -ld /tmp
 ls -ld /var/www/storage/framework/views
 ls -ld /var/www/bootstrap/cache
 '
+
+docker compose exec app composer require spatie/laravel-permission
+docker compose exec app php artisan vendor:publish \
+  --provider="Spatie\Permission\PermissionServiceProvider"
+docker compose exec app sh -c "
+php artisan make:seeder PermissionSeeder &&
+php artisan make:seeder RoleSeeder &&
+php artisan make:seeder DefaultUserSeeder
+"
+
+
+
+
 docker compose exec app sh -c "
 php artisan make:filament-resource Permission &&
 php artisan make:filament-resource Role &&
