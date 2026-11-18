@@ -272,6 +272,14 @@ php artisan make:seeder PermissionSeeder &&
 php artisan make:seeder RoleSeeder &&
 php artisan make:seeder DefaultUserSeeder
 "
+
+
+docker compose exec app sh -c "
+php artisan migrate &&
+php artisan db:seed --class=PermissionSeeder &&
+php artisan db:seed --class=RoleSeeder &&
+php artisan db:seed --class=DefaultUserSeeder
+"
 docker compose exec app php artisan migrate
 docker compose exec app php artisan db:seed --class=PermissionSeeder
 docker compose exec app php artisan db:seed --class=RoleSeeder
